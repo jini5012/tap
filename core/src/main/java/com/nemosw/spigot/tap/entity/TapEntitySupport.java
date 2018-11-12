@@ -13,8 +13,8 @@ public abstract class TapEntitySupport
         return INSTANCE;
     }
 
-    protected abstract <T extends TapEntity> T wrapEntity(Entity entity);
+    public abstract <T extends TapEntity> T wrapEntity(Entity entity);
 
-    protected abstract <T extends TapEntity> T createEntity(Class<? extends Entity> entityClass);
+    public abstract <T extends TapEntity> T createEntity(Class<? extends Entity> entityClass);
 
 }

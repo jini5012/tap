@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'com.nemosw.spigot'
-version '0.1'
+version '0.1.1'
 
 allprojects {
     apply plugin: 'java'
@@ -13,6 +13,7 @@ allprojects {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
     compileJava.options.encoding = 'UTF-8'
+    javadoc.options.encoding = 'UTF-8'
 
     repositories {
         // junit
@@ -23,12 +24,59 @@ allprojects {
 }
 
 subprojects {
+    apply plugin: 'maven-publish'
+
     dependencies {
         testCompile group: 'junit', name: 'junit', version: '4.12'
 
         Project core = project(':core')
         if (project != core)
             compile core
+    }
+
+    task sourcesJar(type: Jar) {
+        classifier = 'sources'
+        from sourceSets.main.allJava
+    }
+
+    task javadocJar(type: Jar) {
+        classifier = 'javadoc'
+        from javadoc
+    }
+
+    publishing {
+        publications {
+            mavenCollection(MavenPublication) {
+                artifactId = "$parent.name-$project.name"
+                from components.java
+                artifact sourcesJar
+                artifact javadocJar
+                pom {
+                    name = parent.name + "-" + project.name
+                    description = 'Nemo\'s minecraft library'
+                    url = 'https://github.com/nemosrc/tap'
+                    licenses {
+                        license {
+                            name = 'MIT License'
+                            url = 'http://www.opensource.org/licenses/mit-license.php'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'nemo'
+                            name = 'Nemo'
+                            email = 'nemosrc@gmail.com'
+                            url = 'https://github.com/nemosrc'
+                        }
+                    }
+                    scm {
+                        connection = 'scm:git:git://github.com/nemosrc/tap.git'
+                        developerConnection = 'scm:git:ssh://github.com/nemosrc/tap.git'
+                        url = 'https://github.com/nemosrc/tap'
+                    }
+                }
+            }
+        }
     }
 }
 
