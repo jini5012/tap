@@ -1,0 +1,68 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '4.0.2'
+}
+
+group 'com.nemosw.spigot'
+version '0.1'
+
+allprojects {
+    apply plugin: 'java'
+
+    group 'com.nemosw.spigot'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    compileJava.options.encoding = 'UTF-8'
+
+    repositories {
+        // junit
+        mavenCentral()
+        // nms spigot & mox
+        mavenLocal()
+    }
+}
+
+subprojects {
+    dependencies {
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+
+        Project core = project(':core')
+        if (project != core)
+            compile core
+    }
+}
+
+project(':core') {
+    version '0.1'
+
+    processResources.expand parent.properties
+
+    repositories {
+        maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    }
+
+    dependencies {
+        compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+        compile 'com.nemosw.mox:mox-collections:0.1'
+        compile 'com.nemosw.mox:mox-task:0.1'
+        compile 'com.nemosw.mox:mox-math:0.2'
+        compile 'com.nemosw.mox:mox-tools:0.1'
+    }
+}
+
+shadowJar {
+    classifier = 'universal'
+    
+    dependencies {
+        exclude(dependency('com.google.code.gson:gson'))
+    }
+}
+
+dependencies {
+    compile subprojects
+}
+
+task spigotJar(type: Copy) {
+    from shadowJar
+    into '/run/plugins/'
+}
