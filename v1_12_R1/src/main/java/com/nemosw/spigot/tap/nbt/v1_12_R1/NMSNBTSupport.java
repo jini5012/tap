@@ -2,16 +2,17 @@ package com.nemosw.spigot.tap.nbt.v1_12_R1;
 
 import com.nemosw.spigot.tap.util.nbt.NBTCompound;
 import com.nemosw.spigot.tap.util.nbt.NBTList;
-import com.nemosw.spigot.tap.util.nbt.NBTManager;
+import com.nemosw.spigot.tap.util.nbt.NBTSupport;
 import net.minecraft.server.v1_12_R1.*;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public final class NMSNBTManager extends NBTManager
+public final class NMSNBTSupport extends NBTSupport
 {
 	@Override
-	public NBTCompound load(InputStream in)
+	public NBTCompound loadCompound(InputStream in)
 	{
 		try
 		{
@@ -25,7 +26,13 @@ public final class NMSNBTManager extends NBTManager
 		return null;
 	}
 
-	@Override
+    @Override
+    public NBTCompound loadCompound(byte[] bytes)
+    {
+        return loadCompound(new ByteArrayInputStream(bytes));
+    }
+
+    @Override
 	public NMSNBTCompound newCompound()
 	{
 		return new NMSNBTCompound(new NBTTagCompound());
@@ -38,11 +45,11 @@ public final class NMSNBTManager extends NBTManager
 	}
 	
 	@Override
-	public NMSNBTCompound fromJson(String linear)
+	public NMSNBTCompound fromJsonString(String json)
 	{
 		try
 		{
-			return new NMSNBTCompound(MojangsonParser.parse(linear));
+			return new NMSNBTCompound(MojangsonParser.parse(json));
 		}
 		catch (MojangsonParseException e)
 		{

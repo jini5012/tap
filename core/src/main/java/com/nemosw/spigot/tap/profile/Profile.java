@@ -2,25 +2,15 @@ package com.nemosw.spigot.tap.profile;
 
 import java.util.UUID;
 
-public abstract class Profile
+public interface Profile
 {
-    public static Profile getProfile(String name)
-    {
-        return ProfileManager.INSTANCE.getProfile(name);
-    }
 
-    public static Profile getProfile(UUID id)
-    {
-        return ProfileManager.INSTANCE.getProfile(id);
-    }
+    UUID getUniqueId();
 
-    protected Profile() {}
+    String getName();
 
-    public abstract UUID getUniqueId();
+    boolean isLegacy();
 
-    public abstract String getName();
+    String toString();
 
-    public abstract boolean isLegacy();
-
-    public abstract String toString();
 }

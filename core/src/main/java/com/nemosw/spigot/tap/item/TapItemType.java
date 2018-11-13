@@ -2,6 +2,7 @@ package com.nemosw.spigot.tap.item;
 
 import com.nemosw.spigot.tap.util.nbt.NBTCompound;
 import com.nemosw.spigot.tap.util.nbt.NBTList;
+import com.nemosw.spigot.tap.util.nbt.NBTSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -220,7 +221,7 @@ public final class TapItemType
 
     public NBTCompound save()
     {
-        return save(NBTCompound.newInstance());
+        return save(NBTSupport.getInstance().newCompound());
     }
 
     public NBTCompound save(NBTCompound compound)

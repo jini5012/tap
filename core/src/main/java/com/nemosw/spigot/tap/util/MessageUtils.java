@@ -48,7 +48,7 @@ public final class MessageUtils
             if (index == -1 || index == 0)
                 continue;
 
-            map.put(s.substring(0, index), ChatColorUtils.color(s.substring(index + 1).replace("\\n", "\n")));
+            map.put(s.substring(0, index), ChatColorSupport.color(s.substring(index + 1).replace("\\n", "\n")));
         }
 
         br.close();
@@ -79,7 +79,7 @@ public final class MessageUtils
             {
                 Entry<String, String> entry = iter.next();
 
-                bw.append(entry.getKey()).append('=').append(ChatColorUtils.strip(entry.getValue().replace("\n", "\\n")));
+                bw.append(entry.getKey()).append('=').append(ChatColorSupport.strip(entry.getValue().replace("\n", "\\n")));
 
                 if (iter.hasNext())
                 {

@@ -6,84 +6,8 @@ import com.nemosw.tools.gson.JsonIO;
 
 import java.io.*;
 
-/**
- * net.minecraft.server.NBTTagCompound 클래스의 래퍼 클래스입니다.
- *
- * @author tap
- */
-public abstract class NBTCompound
+public interface NBTCompound
 {
-    /**
-     * 새로 생성된 NBTCompound를 반환합니다.
-     *
-     * @return 생성된 NBTCompound
-     */
-    public static NBTCompound newInstance()
-    {
-        return NBTManager.INSTANCE.newCompound();
-    }
-
-    /**
-     * bytes로부터 읽어온 NBTCompound를 반환합니다.
-     *
-     * @param bytes
-     * @return 불러온 NBTCompound
-     */
-    public static NBTCompound load(byte[] bytes)
-    {
-        ByteArrayInputStream in = new ByteArrayInputStream(bytes);
-
-        return NBTManager.INSTANCE.load(in);
-    }
-
-    /**
-     * InputStream으로부터 읽어온 NBTCompound를 반환합니다.
-     *
-     * @param in
-     * @return 읽어온 NBTCompound
-     */
-    public static NBTCompound load(InputStream in)
-    {
-        return NBTManager.INSTANCE.load(in);
-    }
-
-    /**
-     * File로부터 읽어온 NBTCompound를 반환합니다.
-     *
-     * @param file
-     * @return 읽어온 NBTCompound
-     */
-    public static NBTCompound load(File file) throws IOException
-    {
-        InputStream in = null;
-
-        try
-        {
-            in = new FileInputStream(file);
-            return NBTManager.INSTANCE.load(in);
-        }
-        finally
-        {
-            if (in != null)
-            {
-                in.close();
-            }
-        }
-    }
-
-    public static NBTCompound fromJson(JsonObject json)
-    {
-        return fromJson(json.toString());
-    }
-
-    public static NBTCompound fromJson(String linear)
-    {
-        return NBTManager.INSTANCE.fromJson(linear);
-    }
-
-    protected NBTCompound()
-    {}
-
     /**
      * 키에 지정된 boolean을 가져옵니다.
      *
@@ -91,9 +15,14 @@ public abstract class NBTCompound
      * @return 키에 지정된 boolean값, 지정된 값이 없을경우 null
      * @throws ClassCastException 키에 지정된 값이 boolean형태가 아닐 경우 발생합니다.
      */
-    public final boolean getBoolean(String name)
+    default boolean getBoolean(String name)
     {
         return getByte(name) != 0;
+    }
+
+    default void setBoolean(String name, boolean value)
+    {
+        setByte(name, value ? (byte) 1 : (byte) 0);
     }
 
     /**
@@ -103,7 +32,9 @@ public abstract class NBTCompound
      * @return 키에 지정된 byte값 지정된 값이 없을경우 null
      * @throws ClassCastException 키에 지정된 값이 byte형태가 아닐 경우 발생합니다.
      */
-    public abstract byte getByte(String name);
+    byte getByte(String name);
+
+    void setByte(String name, byte value);
 
     /**
      * byte[]을 가져옵니다.
@@ -111,7 +42,9 @@ public abstract class NBTCompound
      * @param name 키 이름
      * @return 값
      */
-    public abstract byte[] getByteArray(String name);
+    byte[] getByteArray(String name);
+
+    void setByteArray(String name, byte[] value);
 
     /**
      * short를 가져옵니다.
@@ -119,7 +52,9 @@ public abstract class NBTCompound
      * @param name 키 이름
      * @return 값
      */
-    public abstract short getShort(String name);
+    short getShort(String name);
+
+    void setShort(String name, short value);
 
     /**
      * int를 가져옵니다.
@@ -127,7 +62,9 @@ public abstract class NBTCompound
      * @param name 키 이름
      * @return 값
      */
-    public abstract int getInt(String name);
+    int getInt(String name);
+
+    void setInt(String name, int value);
 
     /**
      * int[]를 가져옵니다.
@@ -135,7 +72,9 @@ public abstract class NBTCompound
      * @param name 키 이름
      * @return 값
      */
-    public abstract int[] getIntArray(String name);
+    int[] getIntArray(String name);
+
+    void setIntArray(String name, int[] value);
 
     /**
      * long을 가져옵니다.
@@ -143,7 +82,9 @@ public abstract class NBTCompound
      * @param name 키 이름
      * @return 값
      */
-    public abstract long getLong(String name);
+    long getLong(String name);
+
+    void setLong(String name, long value);
 
     /**
      * float을 가져옵니다.
@@ -151,7 +92,9 @@ public abstract class NBTCompound
      * @param name 키 이름
      * @return 값
      */
-    public abstract float getFloat(String name);
+    float getFloat(String name);
+
+    void setFloat(String name, float value);
 
     /**
      * double을 가져옵니다.
@@ -159,7 +102,9 @@ public abstract class NBTCompound
      * @param name 키 이름
      * @return 값
      */
-    public abstract double getDouble(String name);
+    double getDouble(String name);
+
+    void setDouble(String name, double value);
 
     /**
      * string을 가져옵니다.
@@ -167,7 +112,9 @@ public abstract class NBTCompound
      * @param name 키 이름
      * @return 값
      */
-    public abstract String getString(String name);
+    String getString(String name);
+
+    void setString(String name, String value);
 
     /**
      * NBTList를 가져옵니다.
@@ -175,7 +122,9 @@ public abstract class NBTCompound
      * @param name 키 이름
      * @return 값
      */
-    public abstract NBTList getList(String name);
+    NBTList getList(String name);
+
+    void setList(String name, NBTList list);
 
     /**
      * NBTCompound를 가져옵니다.
@@ -183,14 +132,9 @@ public abstract class NBTCompound
      * @param name 키 이름
      * @return 값
      */
-    public abstract NBTCompound getCompound(String name);
+    NBTCompound getCompound(String name);
 
-    /**
-     * NBTCompound가 비어있는지 확인합니다.
-     *
-     * @return 결과
-     */
-    public abstract boolean isEmpty();
+    void setCompound(String name, NBTCompound compound);
 
     /**
      * 키가 있는지 확인합니다.
@@ -198,46 +142,22 @@ public abstract class NBTCompound
      * @param name
      * @return
      */
-    public abstract boolean contains(String name);
+    boolean contains(String name);
 
-    public final void setBoolean(String name, boolean value)
-    {
-        setByte(name, value ? (byte) 1 : (byte) 0);
-    }
+    void remove(String name);
 
-    public abstract void setByte(String name, byte value);
+    /**
+     * NBTCompound가 비어있는지 확인합니다.
+     *
+     * @return 결과
+     */
+    boolean isEmpty();
 
-    public abstract void setByteArray(String name, byte[] value);
+    NBTCompound copy();
 
-    public abstract void setShort(String name, short value);
+    void save(OutputStream out) throws IOException;
 
-    public abstract void setInt(String name, int value);
-
-    public abstract void setIntArray(String name, int[] value);
-
-    public abstract void setLong(String name, long value);
-
-    public abstract void setFloat(String name, float value);
-
-    public abstract void setDouble(String name, double value);
-
-    public abstract void setString(String name, String value);
-
-    public abstract void setList(String name, NBTList list);
-
-    public abstract void setCompound(String name, NBTCompound compound);
-
-    public abstract void remove(String name);
-
-    public abstract int hashCode();
-
-    public abstract boolean equals(Object obj);
-
-    public abstract NBTCompound copy();
-
-    public abstract void save(OutputStream out) throws IOException;
-
-    public final byte[] save()
+    default byte[] save()
     {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
@@ -253,7 +173,7 @@ public abstract class NBTCompound
         return out.toByteArray();
     }
 
-    public final void save(File file) throws IOException
+    default void save(File file) throws IOException
     {
         FileOutputStream out = null;
 
@@ -289,16 +209,16 @@ public abstract class NBTCompound
         }
     }
 
-    public final JsonObject toJson()
+    default JsonObject toJson()
     {
         return (JsonObject) JsonIO.getParser().parse(toString());
     }
 
-    public final String toString()
-    {
-        return toString(new StringBuilder()).toString();
-    }
+    StringBuilder toJsonString(StringBuilder builder);
 
-    public abstract StringBuilder toString(StringBuilder builder);
+    default String toJsonString()
+    {
+        return toJsonString(new StringBuilder()).toString();
+    }
 
 }

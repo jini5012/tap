@@ -1,12 +1,8 @@
 package com.nemosw.spigot.tap.util.nbt;
 
-/**
- * NBT 타입들이 선언되어있습니다.
- *
- * @author tap
- */
 public final class NBT
 {
+
     public static final int BYTE = 1;
 
     public static final int SHORT = 2;
@@ -31,4 +27,5 @@ public final class NBT
 
     private NBT()
     {}
+
 }

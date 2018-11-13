@@ -49,7 +49,7 @@ public interface FireworkEffect
 
         private static void notNull(Color color)
         {
-            Validate.notNull(color, "Color cannot be null");
+            Validate.notNull(color, "TextColor cannot be null");
         }
 
         private static void addColor(ArrayList<Color> colorList, Color color)

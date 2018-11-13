@@ -1,6 +1,7 @@
 package com.nemosw.spigot.tap.item;
 
 import com.nemosw.spigot.tap.util.nbt.NBTCompound;
+import com.nemosw.spigot.tap.util.nbt.NBTSupport;
 import org.bukkit.World;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
@@ -88,7 +89,7 @@ public interface TapItemStack
 
     default NBTCompound save()
     {
-        return save(NBTCompound.newInstance());
+        return save(NBTSupport.getInstance().newCompound());
     }
 
     NBTCompound save(NBTCompound compound);

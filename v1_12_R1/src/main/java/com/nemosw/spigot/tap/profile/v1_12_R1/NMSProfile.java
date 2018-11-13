@@ -5,8 +5,9 @@ import com.nemosw.spigot.tap.profile.Profile;
 
 import java.util.UUID;
 
-public final class NMSProfile extends Profile
+public final class NMSProfile implements Profile
 {
+
 	private final GameProfile profile;
 
 	NMSProfile(GameProfile profile)
@@ -32,14 +33,16 @@ public final class NMSProfile extends Profile
 		return this.profile.isLegacy();
 	}
 
+    public GameProfile getHandle()
+    {
+        return profile;
+    }
+
 	@Override
 	public String toString()
 	{
 		return this.profile.toString();
 	}
-	
-	public GameProfile getProfile()
-	{
-		return profile;
-	}
+
+
 }

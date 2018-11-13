@@ -2,7 +2,7 @@ package com.nemosw.spigot.tap.text;
 
 import org.bukkit.ChatColor;
 
-public enum Color
+public enum TextColor
 {
     BLACK,
     DARK_BLUE,
@@ -23,14 +23,14 @@ public enum Color
 
     final String name;
 
-    Color()
+    TextColor()
     {
         this.name = name().toLowerCase();
     }
 
-    private static final Color[] values = values();
+    private static final TextColor[] values = values();
 
-    public static Color getByChatColor(ChatColor color)
+    public static TextColor getByChatColor(ChatColor color)
     {
         int ordinal = color.ordinal();
 

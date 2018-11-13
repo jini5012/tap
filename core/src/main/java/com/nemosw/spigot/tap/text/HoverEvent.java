@@ -110,7 +110,7 @@ public final class HoverEvent
             {
                 builder.append(",tag:");
                 int offset = builder.length();
-                tag.toString(builder);
+                tag.toJsonString(builder);
 
                 while (offset < builder.length())
                 {

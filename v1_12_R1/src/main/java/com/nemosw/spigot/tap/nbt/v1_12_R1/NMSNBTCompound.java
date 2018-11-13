@@ -1,5 +1,6 @@
 package com.nemosw.spigot.tap.nbt.v1_12_R1;
 
+import com.google.gson.JsonObject;
 import com.nemosw.spigot.tap.util.nbt.NBTCompound;
 import com.nemosw.spigot.tap.util.nbt.NBTList;
 import net.minecraft.server.v1_12_R1.*;
@@ -7,15 +8,25 @@ import net.minecraft.server.v1_12_R1.*;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public final class NMSNBTCompound extends NBTCompound
+public final class NMSNBTCompound implements NBTCompound
 {
 
     private final NBTTagCompound compound;
+
+    public NBTTagCompound getHandle()
+    {
+        return compound;
+    }
 
     @SuppressWarnings("unchecked")
     private <T extends NBTBase> T get(String name)
     {
         return (T) this.compound.get(name);
+    }
+
+    private void set(String name, NBTBase value)
+    {
+        this.compound.set(name, value);
     }
 
     public NMSNBTCompound(NBTTagCompound compound)
@@ -32,11 +43,23 @@ public final class NMSNBTCompound extends NBTCompound
     }
 
     @Override
+    public void setByte(String name, byte value)
+    {
+        set(name, new NBTTagByte(value));
+    }
+
+    @Override
     public byte[] getByteArray(String name)
     {
         NBTTagByteArray value = get(name);
 
         return value == null ? null : value.c();
+    }
+
+    @Override
+    public void setByteArray(String name, byte[] value)
+    {
+        set(name, new NBTTagByteArray(value));
     }
 
     @Override
@@ -48,11 +71,23 @@ public final class NMSNBTCompound extends NBTCompound
     }
 
     @Override
+    public void setShort(String name, short value)
+    {
+        set(name, new NBTTagShort(value));
+    }
+
+    @Override
     public int getInt(String name)
     {
         NBTTagInt value = get(name);
 
         return value == null ? 0 : value.e();
+    }
+
+    @Override
+    public void setInt(String name, int value)
+    {
+        set(name, new NBTTagInt(value));
     }
 
     @Override
@@ -64,11 +99,23 @@ public final class NMSNBTCompound extends NBTCompound
     }
 
     @Override
+    public void setIntArray(String name, int[] value)
+    {
+        set(name, new NBTTagIntArray(value));
+    }
+
+    @Override
     public long getLong(String name)
     {
         NBTTagLong value = get(name);
 
         return value == null ? 0L : value.d();
+    }
+
+    @Override
+    public void setLong(String name, long value)
+    {
+        set(name, new NBTTagLong(value));
     }
 
     @Override
@@ -80,11 +127,23 @@ public final class NMSNBTCompound extends NBTCompound
     }
 
     @Override
+    public void setFloat(String name, float value)
+    {
+        set(name, new NBTTagFloat(value));
+    }
+
+    @Override
     public double getDouble(String name)
     {
         NBTTagDouble value = get(name);
 
         return value == null ? 0F : value.asDouble();
+    }
+
+    @Override
+    public void setDouble(String name, double value)
+    {
+        set(name, new NBTTagDouble(value));
     }
 
     @Override
@@ -96,11 +155,23 @@ public final class NMSNBTCompound extends NBTCompound
     }
 
     @Override
+    public void setString(String name, String value)
+    {
+        set(name, new NBTTagString(value));
+    }
+
+    @Override
     public NBTList getList(String name)
     {
         NBTTagList value = get(name);
 
         return value == null ? null : new NMSNBTList(value);
+    }
+
+    @Override
+    public void setList(String name, NBTList list)
+    {
+        set(name, ((NMSNBTList) list).getHandle());
     }
 
     @Override
@@ -112,9 +183,9 @@ public final class NMSNBTCompound extends NBTCompound
     }
 
     @Override
-    public boolean isEmpty()
+    public void setCompound(String name, NBTCompound compound)
     {
-        return compound.isEmpty();
+        set(name, ((NMSNBTCompound) compound).compound);
     }
 
     @Override
@@ -123,75 +194,16 @@ public final class NMSNBTCompound extends NBTCompound
         return compound.hasKey(name);
     }
 
-    private void set(String name, NBTBase value)
+    @Override
+    public boolean isEmpty()
     {
-        this.compound.set(name, value);
+        return compound.isEmpty();
     }
 
     @Override
-    public void setByte(String name, byte value)
+    public NBTCompound copy()
     {
-        set(name, new NBTTagByte(value));
-    }
-
-    @Override
-    public void setByteArray(String name, byte[] value)
-    {
-        set(name, new NBTTagByteArray(value));
-    }
-
-    @Override
-    public void setShort(String name, short value)
-    {
-        set(name, new NBTTagShort(value));
-    }
-
-    @Override
-    public void setInt(String name, int value)
-    {
-        set(name, new NBTTagInt(value));
-    }
-
-    @Override
-    public void setIntArray(String name, int[] value)
-    {
-        set(name, new NBTTagIntArray(value));
-    }
-
-    @Override
-    public void setLong(String name, long value)
-    {
-        set(name, new NBTTagLong(value));
-    }
-
-    @Override
-    public void setFloat(String name, float value)
-    {
-        set(name, new NBTTagFloat(value));
-    }
-
-    @Override
-    public void setDouble(String name, double value)
-    {
-        set(name, new NBTTagDouble(value));
-    }
-
-    @Override
-    public void setString(String name, String value)
-    {
-        set(name, new NBTTagString(value));
-    }
-
-    @Override
-    public void setList(String name, NBTList list)
-    {
-        set(name, ((NMSNBTList) list).getHandle());
-    }
-
-    @Override
-    public void setCompound(String name, NBTCompound compound)
-    {
-        set(name, ((NMSNBTCompound) compound).compound);
+        return new NMSNBTCompound((NBTTagCompound) this.compound.clone());
     }
 
     @Override
@@ -200,23 +212,6 @@ public final class NMSNBTCompound extends NBTCompound
         this.compound.remove(name);
     }
 
-    @Override
-    public int hashCode()
-    {
-        return this.compound.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        return obj instanceof NMSNBTCompound && this.compound.equals(((NMSNBTCompound) obj).compound);
-    }
-
-    @Override
-    public NBTCompound copy()
-    {
-        return new NMSNBTCompound((NBTTagCompound) this.compound.clone());
-    }
 
     @Override
     public void save(OutputStream out)
@@ -232,14 +227,21 @@ public final class NMSNBTCompound extends NBTCompound
     }
 
     @Override
-    public StringBuilder toString(StringBuilder builder)
+    public StringBuilder toJsonString(StringBuilder builder)
     {
         return NBTWriters.write(this.compound, builder);
     }
 
-    public NBTTagCompound getHandle()
+    @Override
+    public int hashCode()
     {
-        return compound;
+        return this.compound.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        return obj instanceof NMSNBTCompound && this.compound.equals(((NMSNBTCompound) obj).compound);
     }
 
 }

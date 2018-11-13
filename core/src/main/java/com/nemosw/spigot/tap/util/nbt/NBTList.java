@@ -1,40 +1,28 @@
 package com.nemosw.spigot.tap.util.nbt;
 
-public abstract class NBTList
+public interface NBTList
 {
-    public static NBTList newInstance()
-    {
-        return NBTManager.INSTANCE.newList();
-    }
 
-    public abstract void addIntArray(int[] value);
+    int[] getIntArray(int i);
 
-    public abstract void addFloat(float value);
+    void addIntArray(int[] value);
 
-    public abstract void addDouble(double value);
+    float getFloat(int i);
 
-    public abstract void addString(String value);
+    void addFloat(float value);
 
-    public abstract void addCompound(NBTCompound compound);
+    double getDouble(int i);
 
-    public abstract int[] getIntArray(int i);
+    void addDouble(double value);
 
-    public abstract float getFloat(int i);
+    String getString(int i);
 
-    public abstract double getDouble(int i);
+    void addString(String value);
 
-    public abstract String getString(int i);
+    NBTCompound getCompound(int i);
 
-    public abstract NBTCompound getCompound(int i);
+    void addCompound(NBTCompound compound);
 
-    public abstract int size();
-
-    public abstract StringBuilder toString(StringBuilder builder);
-
-    public final String toString()
-    {
-        return toString(new StringBuilder()).toString();
-    }
-
+    int size();
 
 }

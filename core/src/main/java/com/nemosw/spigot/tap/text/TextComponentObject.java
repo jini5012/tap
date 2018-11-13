@@ -28,7 +28,7 @@ public final class TextComponentObject extends Message
 
     String insertion;
 
-    Color color;
+    TextColor textColor;
 
     boolean bold;
 
@@ -103,9 +103,9 @@ public final class TextComponentObject extends Message
         return this;
     }
 
-    public TextComponentObject color(Color color)
+    public TextComponentObject color(TextColor textColor)
     {
-        this.color = color;
+        this.textColor = textColor;
 
         return this;
     }
@@ -183,8 +183,8 @@ public final class TextComponentObject extends Message
     {
         builder.append('{').append(this.type.name).append(":\"").append(this.text).append('\"');
 
-        if (this.color != null)
-            builder.append(",color:").append(this.color.name);
+        if (this.textColor != null)
+            builder.append(",textColor:").append(this.textColor.name);
 
         if (this.insertion != null)
             builder.append(",insertion:").append(this.insertion);
