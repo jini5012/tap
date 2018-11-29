@@ -1,7 +1,6 @@
-package com.nemosw.spigot.tap.command.bukkit.v1_12_R1;
+package com.nemosw.spigot.tap.command.v1_12_R1;
 
 import com.nemosw.spigot.tap.command.EntitySelector;
-import com.nemosw.spigot.tap.entity.v1_12_R1.NMSEntitySupport;
 import com.nemosw.spigot.tap.entity.v1_12_R1.NMSEntityTypes;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Bukkit;

@@ -7,6 +7,8 @@ import org.bukkit.Bukkit;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,17 +21,45 @@ import java.util.regex.Pattern;
  */
 public final class LibraryLoader
 {
+    private static <T> Class<? extends T> findClass(List<String> candidates, Class<T> type) throws ClassNotFoundException
+    {
+        for (String className : candidates)
+        {
+            try
+            {
+                return Class.forName(className, true, type.getClassLoader()).asSubclass(type);
+            }
+            catch (ClassNotFoundException ignored)
+            {}
+        }
+
+        throw new ClassNotFoundException();
+    }
 
     @SuppressWarnings("unchecked")
     public static <T> T load(String packageName, String className, Class<T> type, Object... initargs)
     {
         Class[] parameterTypes = ClassUtils.toClass(initargs);
 
-        String nmsClassName = packageName + '.' + getBukkitVersion() + '.' + className;
+        List<String> candiates = new ArrayList<>(2);
+
+        String bukkitVersion = getBukkitVersion();
+
+        candiates.add(packageName + '.' + bukkitVersion + '.' + className);
+
+        int lastDot = packageName.lastIndexOf('.');
+
+        if (lastDot > 0)
+        {
+            String superPackageName = packageName.substring(0, lastDot - 1);
+            String subPackageName = packageName.substring(lastDot);
+            candiates.add(superPackageName + '.' + bukkitVersion + '.' + subPackageName + '.' + className);
+        }
 
         try
         {
-            Class<? extends T> nmsClass = Class.forName(nmsClassName, true, type.getClassLoader()).asSubclass(type);
+
+            Class<? extends T> nmsClass = findClass(candiates, type);
             Constructor<?> constructor = ConstructorUtils.getMatchingAccessibleConstructor(nmsClass, parameterTypes);
 
             if (constructor == null)

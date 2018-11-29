@@ -41,7 +41,7 @@ public abstract class CustomNPC
                 MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
                 mv.visitCode();
                 mv.visitVarInsn(ALOAD, 0);
-                mv.visitMethodInsn(INVOKESPECIAL, objectDesc, "<init>", "()V");
+                mv.visitMethodInsn(INVOKESPECIAL, objectDesc, "<init>", "()V", false);
                 mv.visitInsn(RETURN);
                 mv.visitMaxs(1, 1);
                 mv.visitEnd();
