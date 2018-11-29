@@ -1,16 +1,16 @@
 # Intellij
-/.idea/
-/out/
+.idea/
+out/
 
 # Gradle
 .gradle
-/build/
+build/
 
 # Ignore Gradle GUI config
 gradle-app.setting
 
 # Server folder
-/run/
+run/
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
