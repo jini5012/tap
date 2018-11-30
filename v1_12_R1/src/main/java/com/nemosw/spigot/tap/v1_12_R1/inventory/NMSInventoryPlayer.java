@@ -225,7 +225,7 @@ public final class NMSInventoryPlayer extends NMSInventory implements TapInvento
             throw new IllegalArgumentException("Slot is not between 0 and 8 inclusive");
 
         inv.itemInHandIndex = slot;
-        holder.getEntity().playerConnection.sendPacket(new PacketPlayOutHeldItemSlot(slot));
+        holder.getHandle().playerConnection.sendPacket(new PacketPlayOutHeldItemSlot(slot));
     }
 
 }

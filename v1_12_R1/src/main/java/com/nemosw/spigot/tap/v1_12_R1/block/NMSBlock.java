@@ -15,6 +15,11 @@ public final class NMSBlock implements TapBlock
 		this.block = block;
 	}
 
+	public Block getHandle()
+    {
+        return block;
+    }
+
 	@Override
 	public String getTextureId()
 	{

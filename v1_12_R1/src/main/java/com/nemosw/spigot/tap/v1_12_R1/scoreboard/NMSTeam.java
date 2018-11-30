@@ -2,14 +2,14 @@ package com.nemosw.spigot.tap.v1_12_R1.scoreboard;
 
 import com.nemosw.spigot.tap.scoreboard.CollisionRule;
 import com.nemosw.spigot.tap.scoreboard.NameTagVisibility;
-import com.nemosw.spigot.tap.scoreboard.Team;
+import com.nemosw.spigot.tap.scoreboard.TapTeam;
 import org.bukkit.ChatColor;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public final class NMSTeam implements Team
+public final class NMSTeam implements TapTeam
 {
 
 	final NMSScoreboard scoreboard;
@@ -297,6 +297,6 @@ public final class NMSTeam implements Team
 	private void checkState()
 	{
 		if (!this.valid)
-			throw new IllegalStateException("Invalid Team '" + this.name + "' @" + Integer.toHexString(System.identityHashCode(this)));
+			throw new IllegalStateException("Invalid TapTeam '" + this.name + "' @" + Integer.toHexString(System.identityHashCode(this)));
 	}
 }

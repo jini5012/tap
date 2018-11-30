@@ -13,6 +13,11 @@ public final class NMSBlockData implements TapBlockData
         this.blockData = blockData;
     }
 
+    public IBlockData getHandle()
+    {
+        return blockData;
+    }
+
     @Override
     public NMSBlock getBlock()
     {

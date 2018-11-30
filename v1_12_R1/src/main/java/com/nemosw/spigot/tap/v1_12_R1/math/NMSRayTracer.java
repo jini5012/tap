@@ -110,7 +110,7 @@ public final class NMSRayTracer implements RayTracer
 
         if (result != null)
         {
-            Vec3D pos = result.result.pos;
+            Vec3D pos = result.getHandle().pos;
             setTo(pos.x, pos.y, pos.z);
         }
 

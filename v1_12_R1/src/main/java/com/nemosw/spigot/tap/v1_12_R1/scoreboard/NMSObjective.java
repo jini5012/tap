@@ -1,12 +1,12 @@
 package com.nemosw.spigot.tap.v1_12_R1.scoreboard;
 
 import com.nemosw.spigot.tap.scoreboard.DisplaySlot;
-import com.nemosw.spigot.tap.scoreboard.Objective;
+import com.nemosw.spigot.tap.scoreboard.TapObjective;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public final class NMSObjective implements Objective
+public final class NMSObjective implements TapObjective
 {
 	final NMSScoreboard scoreboard;
 
@@ -154,7 +154,7 @@ public final class NMSObjective implements Objective
 	private void checkState()
 	{
 		if (!this.valid)
-			throw new IllegalStateException("Invalid Objective '" + this.name + "' @" + Integer.toHexString(System.identityHashCode(this)));
+			throw new IllegalStateException("Invalid TapObjective '" + this.name + "' @" + Integer.toHexString(System.identityHashCode(this)));
 	}
 
 	@Override

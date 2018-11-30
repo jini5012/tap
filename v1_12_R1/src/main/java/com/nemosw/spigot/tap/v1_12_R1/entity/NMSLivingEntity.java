@@ -18,7 +18,7 @@ public class NMSLivingEntity extends NMSEntity implements TapLivingEntity
 	}
 	
 	@Override
-	public EntityLiving getEntity()
+	public EntityLiving getHandle()
 	{
 		return living;
 	}

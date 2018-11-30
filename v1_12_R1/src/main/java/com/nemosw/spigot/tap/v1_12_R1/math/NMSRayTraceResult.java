@@ -11,12 +11,17 @@ import org.bukkit.block.BlockFace;
 public final class NMSRayTraceResult implements RayTraceResult
 {
 	
-	public final MovingObjectPosition result;
+	private final MovingObjectPosition result;
 
 	public NMSRayTraceResult(MovingObjectPosition result)
 	{
 		this.result = result;
 	}
+
+	public MovingObjectPosition getHandle()
+    {
+        return result;
+    }
 
 	@Override
 	public double getX()

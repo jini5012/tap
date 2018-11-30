@@ -1,8 +1,8 @@
 package com.nemosw.spigot.tap.scoreboard;
 
-public interface Objective
+public interface TapObjective
 {
-    Scoreboard getScoreboard();
+    TapScoreboard getScoreboard();
 
     String getName();
 
@@ -14,13 +14,13 @@ public interface Objective
 
     void setDisplaySlot(DisplaySlot slot);
 
-    Score getScore(String name);
+    TapScore getScore(String name);
 
-    Score registerScore(String name);
+    TapScore registerScore(String name);
 
-    Score registerScore(String name, int score);
+    TapScore registerScore(String name, int score);
 
-    Score unregisterScore(String name);
+    TapScore unregisterScore(String name);
 
     void clear();
 

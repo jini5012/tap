@@ -1,8 +1,8 @@
 package com.nemosw.spigot.tap.scoreboard;
 
-public interface Score
+public interface TapScore
 {
-    Objective getObjective();
+    TapObjective getObjective();
 
     String getName();
 
