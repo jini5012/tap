@@ -18,7 +18,7 @@ public interface Packet
 
     ItemPacket ITEM = LibraryLoader.load(ItemPacket.class);
 
-    ScoreboardPacket SCOREBAORD = LibraryLoader.load(ScoreboardPacket.class);
+    ScoreboardPacket SCOREBOARD = LibraryLoader.load(ScoreboardPacket.class);
 
     StatusPacket STATUS = LibraryLoader.load(StatusPacket.class);
 

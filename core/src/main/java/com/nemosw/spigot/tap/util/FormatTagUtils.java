@@ -48,7 +48,7 @@ public final class FormatTagUtils
     {
         char c = '§';
 
-        tag.append(c).append((char) (l >>> 48)).append(c).append((char) (l >>> 32)).append(c).append((char) (l >>> 16)).append(c).append((char) (l >>> 0));
+        tag.append(c).append((char) (l >>> 48)).append(c).append((char) (l >>> 32)).append(c).append((char) (l >>> 16)).append(c).append((char) (l));
     }
 
     public static UUID toUUID(String tag, int offset)

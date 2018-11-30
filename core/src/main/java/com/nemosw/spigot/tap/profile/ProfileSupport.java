@@ -1,23 +1,12 @@
 package com.nemosw.spigot.tap.profile;
 
-import com.nemosw.spigot.tap.LibraryLoader;
-
 import java.util.UUID;
 
-public abstract class ProfileSupport
+public interface ProfileSupport
 {
 
-    private static final ProfileSupport INSTANCE = LibraryLoader.load(ProfileSupport.class);
+    Profile getProfile(String name);
 
-    public static ProfileSupport getInstance()
-    {
-        return INSTANCE;
-    }
-
-    protected ProfileSupport() {}
-
-    public abstract Profile getProfile(String name);
-
-    public abstract Profile getProfile(UUID uniqueId);
+    Profile getProfile(UUID uniqueId);
 
 }

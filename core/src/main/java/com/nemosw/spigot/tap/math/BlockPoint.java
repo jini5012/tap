@@ -83,7 +83,7 @@ public final class BlockPoint
         return multiply(p.x, p.y, p.z);
     }
 
-    public BlockPoint devide(int x, int y, int z)
+    public BlockPoint divide(int x, int y, int z)
     {
         this.x /= x;
         this.y /= y;
@@ -92,8 +92,8 @@ public final class BlockPoint
         return this;
     }
 
-    public BlockPoint devide(BlockPoint p)
+    public BlockPoint divide(BlockPoint p)
     {
-        return devide(p.x, p.y, p.z);
+        return divide(p.x, p.y, p.z);
     }
 }

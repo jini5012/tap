@@ -1,5 +1,6 @@
 package com.nemosw.spigot.tap.command;
 
+import com.nemosw.spigot.tap.Tap;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.BlockCommandSender;
@@ -18,7 +19,7 @@ public class CommandComponent
 
     public final String description;
 
-    public final int argumentsLegnth;
+    public final int argumentsLength;
 
     public final String permission;
 
@@ -42,7 +43,7 @@ public class CommandComponent
         this.usage = usage;
         this.description = description;
         this.permission = permission;
-        this.argumentsLegnth = Math.max(0, argumentsLength);
+        this.argumentsLength = Math.max(0, argumentsLength);
     }
 
     private static String createMessage(CommandSender sender, String label, String componentLabel, String message)
@@ -113,7 +114,7 @@ public class CommandComponent
 
     public static <T extends Entity> List<T> matchEntities(CommandSender sender, String token, Class<T> targetClass)
     {
-        return EntitySelector.getInstance().matchEntities(sender, token, targetClass);
+        return Tap.ENTITY_SELECTOR.matchEntities(sender, token, targetClass);
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String componentLabel, ArgumentList args)

@@ -1,8 +1,9 @@
 package com.nemosw.spigot.tap.item;
 
-import com.nemosw.spigot.tap.util.nbt.NBTCompound;
-import com.nemosw.spigot.tap.util.nbt.NBTList;
-import com.nemosw.spigot.tap.util.nbt.NBTSupport;
+import com.nemosw.spigot.tap.Tap;
+import com.nemosw.spigot.tap.nbt.NBTCompound;
+import com.nemosw.spigot.tap.nbt.NBTList;
+import com.nemosw.spigot.tap.nbt.NBTSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +64,7 @@ public final class TapItemType
     public TapItemType(NBTCompound compound)
     {
         int id = compound.getInt(ID);
-        item = TapItemSupport.getInstance().getItem(id);
+        item = Tap.ITEM.getItem(id);
 
         if (item == null)
             throw new NullPointerException("Unknown item id '" + id + "'");
@@ -211,7 +212,7 @@ public final class TapItemType
 
     public TapItemStack toItemStack(int amount)
     {
-        TapItemStack itemStack = TapItemSupport.getInstance().newItemStack(item, amount, data);
+        TapItemStack itemStack = Tap.ITEM.newItemStack(item, amount, data);
 
         if (tag != null)
             itemStack.setTag(tag.copy());
@@ -221,7 +222,7 @@ public final class TapItemType
 
     public NBTCompound save()
     {
-        return save(NBTSupport.getInstance().newCompound());
+        return save(Tap.NBT.newCompound());
     }
 
     public NBTCompound save(NBTCompound compound)

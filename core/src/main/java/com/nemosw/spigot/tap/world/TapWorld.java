@@ -1,14 +1,10 @@
 package com.nemosw.spigot.tap.world;
 
 import com.nemosw.spigot.tap.block.TapBlockData;
+import com.nemosw.spigot.tap.nbt.NBTCompound;
 
 public interface TapWorld
 {
-
-    static TapWorld from(org.bukkit.World world)
-    {
-        return WorldSupport.getInstance().fromWorld(world);
-    }
 
     org.bukkit.World getWorld();
 
@@ -22,5 +18,9 @@ public interface TapWorld
     }
 
     boolean setBlock(int x, int y, int z, TapBlockData block, boolean applyPhysics);
+
+    NBTCompound saveToSchematic(int x, int y, int z, int width, int height, int length);
+
+    void loadFromSchematic(int x, int y, int z, NBTCompound schematic);
 
 }

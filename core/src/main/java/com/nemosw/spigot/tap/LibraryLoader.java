@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  * <p>
  * x_x_Rx 로 패키지 이름을 정하면 해당 클래스가 로딩됩니다.
  *
- * @author tap
+ * @author Nemo
  */
 public final class LibraryLoader
 {
@@ -33,7 +33,7 @@ public final class LibraryLoader
             {}
         }
 
-        throw new ClassNotFoundException();
+        throw new ClassNotFoundException("Not found nms library class: " + candidates.toString());
     }
 
     @SuppressWarnings("unchecked")
@@ -51,14 +51,13 @@ public final class LibraryLoader
 
         if (lastDot > 0)
         {
-            String superPackageName = packageName.substring(0, lastDot - 1);
-            String subPackageName = packageName.substring(lastDot);
+            String superPackageName = packageName.substring(0, lastDot);
+            String subPackageName = packageName.substring(lastDot + 1);
             candiates.add(superPackageName + '.' + bukkitVersion + '.' + subPackageName + '.' + className);
         }
 
         try
         {
-
             Class<? extends T> nmsClass = findClass(candiates, type);
             Constructor<?> constructor = ConstructorUtils.getMatchingAccessibleConstructor(nmsClass, parameterTypes);
 

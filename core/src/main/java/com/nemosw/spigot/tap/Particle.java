@@ -50,13 +50,5 @@ public enum Particle
     SWEEP_ATTACK,
     FALLING_DUST,
     TOTEM,
-    SPIT;
-
-    public static void main(String[] args)
-    {
-        for (Particle p : values())
-        {
-            System.out.println("particles[Particle." + p.name() + ".ordinal()] = EnumParticle." + p.name() + ";");
-        }
-    }
+    SPIT
 }

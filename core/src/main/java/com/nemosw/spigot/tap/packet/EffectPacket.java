@@ -2,7 +2,11 @@ package com.nemosw.spigot.tap.packet;
 
 import com.nemosw.mox.math.Vector;
 import com.nemosw.mox.math.VectorSpace;
-import com.nemosw.spigot.tap.*;
+import com.nemosw.spigot.tap.Effect;
+import com.nemosw.spigot.tap.Particle;
+import com.nemosw.spigot.tap.firework.FireworkEffect;
+import com.nemosw.spigot.tap.sound.Sound;
+import com.nemosw.spigot.tap.sound.SoundCategory;
 
 public interface EffectPacket
 {

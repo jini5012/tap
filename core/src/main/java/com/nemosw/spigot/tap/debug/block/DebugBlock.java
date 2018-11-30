@@ -1,8 +1,8 @@
 package com.nemosw.spigot.tap.debug.block;
 
+import com.nemosw.spigot.tap.Tap;
 import com.nemosw.spigot.tap.block.TapBlock;
 import com.nemosw.spigot.tap.block.TapBlockData;
-import com.nemosw.spigot.tap.block.TapBlockSupport;
 import com.nemosw.spigot.tap.debug.DebugProcess;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -39,7 +39,7 @@ public class DebugBlock extends DebugProcess
 
                     if (itemStack != null && itemStack.getType().isBlock())
                     {
-                        TapBlock block = TapBlockSupport.getInstance().getBlock(itemStack.getTypeId());
+                        TapBlock block = Tap.BLOCK.getBlock(itemStack.getTypeId());
                         TapBlockData blockData = block.getBlockData(itemStack.getDurability());
 
                         for (int i = 0; i < 7; i++)
@@ -57,7 +57,7 @@ public class DebugBlock extends DebugProcess
 
                     if (block != null)
                     {
-                        TapBlock tapBlock = TapBlockSupport.getInstance().getBlock(block.getTypeId());
+                        TapBlock tapBlock = Tap.BLOCK.getBlock(block.getTypeId());
                         TapBlockData blockData = tapBlock.getBlockData(block.getData() & 0xFF);
 
                         for (int i = 0; i < 7; i++)

@@ -47,7 +47,7 @@ final class EventEntityHandler implements EventNodeList.NodeListener<RegisteredE
             for (EventNodeList<RegisteredEntityExecutor> executorList : this.executorsByPriority.values())
                 list.addAll(executorList);
 
-            this.executors = executors = list.toArray(new RegisteredEntityExecutor[list.size()]);
+            this.executors = executors = list.toArray(new RegisteredEntityExecutor[0]);
         }
 
         return executors;

@@ -2,7 +2,10 @@ package com.nemosw.spigot.tap.event;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.*;
+import org.bukkit.event.Event;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.EventExecutor;
 import org.bukkit.plugin.Plugin;
 
@@ -130,7 +133,7 @@ public final class EntityEventManager
         public void onEvent(Event event)
         {
             if (this.baked == null)
-                this.baked = this.entityExtractors.toArray(new EntityExtractor[this.entityExtractors.size()]);
+                this.baked = this.entityExtractors.toArray(new EntityExtractor[0]);
 
             Class<? extends Event> eventClass = event.getClass();
 

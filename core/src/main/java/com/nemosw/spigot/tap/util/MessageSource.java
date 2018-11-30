@@ -128,7 +128,7 @@ public final class MessageSource
             macro.add(matcher.group());
         }
 
-        this.macro = macro == null ? null : macro.toArray(new String[macro.size()]);
+        this.macro = macro == null ? null : macro.toArray(new String[0]);
         this.toString = message;
     }
 

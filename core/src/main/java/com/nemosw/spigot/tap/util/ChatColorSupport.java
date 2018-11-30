@@ -5,7 +5,7 @@ import org.bukkit.ChatColor;
 import java.util.List;
 import java.util.ListIterator;
 
-public class ChatColorSupport
+public final class ChatColorSupport
 {
 
     public static List<String> frontColor(ChatColor color, List<String> list)
@@ -65,5 +65,7 @@ public class ChatColorSupport
 
         return new String(chars);
     }
+
+    private ChatColorSupport() {}
 
 }

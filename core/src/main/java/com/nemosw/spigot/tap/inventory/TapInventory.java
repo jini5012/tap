@@ -1,17 +1,11 @@
 package com.nemosw.spigot.tap.inventory;
 
 import com.nemosw.spigot.tap.item.TapItemStack;
-import org.bukkit.inventory.Inventory;
 
 import java.util.List;
 
 public interface TapInventory
 {
-
-    static TapInventory fromInventory(Inventory inventory)
-    {
-        return InventoryManager.INSTANCE.fromInventory(inventory);
-    }
 
     int getSize();
 

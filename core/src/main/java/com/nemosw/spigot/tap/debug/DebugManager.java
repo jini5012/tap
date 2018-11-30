@@ -2,6 +2,7 @@ package com.nemosw.spigot.tap.debug;
 
 import com.google.common.base.Suppliers;
 import com.nemosw.spigot.tap.debug.block.DebugBlock;
+import com.nemosw.spigot.tap.debug.text.TextDebug;
 
 import java.util.Collection;
 import java.util.Set;
@@ -16,6 +17,7 @@ public final class DebugManager
     public DebugManager()
     {
         registerModule("block", DebugBlock::new);
+        registerModule("text", TextDebug::new);
     }
 
     private void registerModule(String name, Supplier<? extends DebugProcess> processSupplier)

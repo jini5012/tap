@@ -39,7 +39,7 @@ public final class MessageUtils
         BufferedReader br = new BufferedReader(reader);
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
 
-        String s = null;
+        String s;
 
         while ((s = br.readLine()) != null)
         {
@@ -58,13 +58,7 @@ public final class MessageUtils
 
     public static void save(Map<String, String> map, File file) throws IOException
     {
-        try
-        {
-            save(map, new FileWriter(file));
-        }
-        finally
-        {
-        }
+        save(map, new FileWriter(file));
     }
 
     public static void save(Map<String, String> map, Writer writer) throws IOException

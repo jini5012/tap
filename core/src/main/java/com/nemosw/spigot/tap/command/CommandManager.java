@@ -1,6 +1,6 @@
 package com.nemosw.spigot.tap.command;
 
-import com.nemosw.tools.lang.Alphanumeric;
+import org.apache.commons.lang.Validate;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
@@ -129,14 +129,14 @@ public class CommandManager
         int len1 = b.length() + 1;
 
         int[] cost = new int[len0];
-        int[] newcost = new int[len0];
+        int[] newCost = new int[len0];
 
         for (int i = 0; i < len0; i++)
             cost[i] = i;
 
         for (int j = 1; j < len1; j++)
         {
-            newcost[0] = j;
+            newCost[0] = j;
 
             for (int i = 1; i < len0; i++)
             {
@@ -144,14 +144,14 @@ public class CommandManager
 
                 int cost_replace = cost[i - 1] + match;
                 int cost_insert = cost[i] + 1;
-                int cost_delete = newcost[i - 1] + 1;
+                int cost_delete = newCost[i - 1] + 1;
 
-                newcost[i] = Math.min(Math.min(cost_insert, cost_delete), cost_replace);
+                newCost[i] = Math.min(Math.min(cost_insert, cost_delete), cost_replace);
             }
 
             int[] swap = cost;
-            cost = newcost;
-            newcost = swap;
+            cost = newCost;
+            newCost = swap;
         }
 
         return cost[len0 - 1];
@@ -190,8 +190,7 @@ public class CommandManager
 
     public final CommandManager register(PluginCommand command)
     {
-        if (command == null)
-            throw new NullPointerException("Unregistered command: " + command);
+        Validate.notNull(command, "Command cannot be null");
 
         if (this.executor == null)
             this.executor = new CommandExecutor();
@@ -253,7 +252,7 @@ public class CommandManager
 
             try
             {
-                if (args.length <= component.argumentsLegnth || !component.onCommand(sender, command, label, componentLabel, new ArgumentList(args, 1)))
+                if (args.length <= component.argumentsLength || !component.onCommand(sender, command, label, componentLabel, new ArgumentList(args, 1)))
                     sender.sendMessage(HelpUtils.createHelp(label, componentLabel, component.usage, component.description));
             }
             catch (Throwable t)

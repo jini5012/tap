@@ -74,13 +74,8 @@ public class ASMEventExecutor
             Method[] publicMethods = listener.getClass().getMethods();
             methods = new HashSet<>(publicMethods.length, 3.4028235E+38F);
 
-            for (Method method : publicMethods)
-            {
-                methods.add(method);
-            }
-
-            for (Method method : listener.getClass().getDeclaredMethods())
-                methods.add(method);
+            Collections.addAll(methods, publicMethods);
+            Collections.addAll(methods, listener.getClass().getDeclaredMethods());
         }
         catch (NoClassDefFoundError e)
         {
@@ -110,13 +105,7 @@ public class ASMEventExecutor
 
             Class<? extends Event> eventClass = checkClass.asSubclass(Event.class);
             method.setAccessible(true);
-            Set<RegisteredListener> eventSet = ret.get(eventClass);
-
-            if (eventSet == null)
-            {
-                eventSet = new HashSet<>();
-                ret.put(eventClass, eventSet);
-            }
+            Set<RegisteredListener> eventSet = ret.computeIfAbsent(eventClass, k -> new HashSet<>());
 
             for (Class<?> clazz = eventClass; Event.class.isAssignableFrom(clazz); clazz = clazz.getSuperclass())
             {
@@ -207,34 +196,34 @@ public class ASMEventExecutor
         if (!Modifier.isPublic(method.getModifiers()))
         {
             plugin.getLogger().log(Level.WARNING,
-                    String.format("'%s' listener method '%s' is not public, it will create reflection EventExecutor (performance slower than asm EventExecutor)",
+                    String.format("'%s' listener method '%s' is not public, it will create reflection EventExecutor (it's slower than asm EventExecutor)",
                             plugin.getDescription().getName(), method.toString()
                     )
             );
 
             method.setAccessible(true);
 
-            return new EventExecutor()
-            {
-                public void execute(Listener listener, Event event) throws EventException
+            EventExecutor executor = (listener, event) -> {
+                try
                 {
-                    try
-                    {
-                        if (!eventClass.isAssignableFrom(event.getClass()))
-                            return;
+                    if (!eventClass.isAssignableFrom(event.getClass()))
+                        return;
 
-                        method.invoke(listener, event);
-                    }
-                    catch (InvocationTargetException ex)
-                    {
-                        throw new EventException(ex.getCause());
-                    }
-                    catch (Throwable t)
-                    {
-                        throw new EventException(t);
-                    }
+                    method.invoke(listener, event);
+                }
+                catch (InvocationTargetException ex)
+                {
+                    throw new EventException(ex.getCause());
+                }
+                catch (Throwable t)
+                {
+                    throw new EventException(t);
                 }
             };
+
+            CACHE.put(method, executor);
+
+            return executor;
         }
 
         String name = generateClassName();
@@ -249,7 +238,7 @@ public class ASMEventExecutor
             MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
             mv.visitCode();
             mv.visitVarInsn(ALOAD, 0);
-            mv.visitMethodInsn(INVOKESPECIAL, OBJECT_NAME, "<init>", "()V");
+            mv.visitMethodInsn(INVOKESPECIAL, OBJECT_NAME, "<init>", "()V", false);
             mv.visitInsn(RETURN);
             mv.visitMaxs(1, 1);
             mv.visitEnd();
@@ -264,8 +253,8 @@ public class ASMEventExecutor
 
             mv.visitLdcInsn(Type.getType(eventClass));
             mv.visitVarInsn(ALOAD, 2);
-            mv.visitMethodInsn(INVOKEVIRTUAL, OBJECT_NAME, "getClass", GET_CLASS_DESC);
-            mv.visitMethodInsn(INVOKEVIRTUAL, CLASS_NAME, "isAssignableFrom", IS_ASSIGNABLE_FROM_DESC);
+            mv.visitMethodInsn(INVOKEVIRTUAL, OBJECT_NAME, "getClass", GET_CLASS_DESC, false);
+            mv.visitMethodInsn(INVOKEVIRTUAL, CLASS_NAME, "isAssignableFrom", IS_ASSIGNABLE_FROM_DESC, false);
 
             Label tryStart = new Label();
             Label tryEnd = new Label();
@@ -280,7 +269,7 @@ public class ASMEventExecutor
             mv.visitTypeInsn(CHECKCAST, instType);
             mv.visitVarInsn(ALOAD, 2);
             mv.visitTypeInsn(CHECKCAST, eventType);
-            mv.visitMethodInsn(INVOKEVIRTUAL, instType, method.getName(), Type.getMethodDescriptor(method));
+            mv.visitMethodInsn(INVOKEVIRTUAL, instType, method.getName(), Type.getMethodDescriptor(method), false);
             mv.visitJumpInsn(GOTO, catchEnd);
             mv.visitLabel(tryEnd);
             mv.visitLabel(catchStart);
@@ -288,7 +277,7 @@ public class ASMEventExecutor
             mv.visitTypeInsn(NEW, EVENT_EXCE_NAME);
             mv.visitInsn(DUP);
             mv.visitVarInsn(ALOAD, 3);
-            mv.visitMethodInsn(INVOKESPECIAL, EVENT_EXCE_NAME, "<init>", EVENT_EXCE_CONS_DESC);
+            mv.visitMethodInsn(INVOKESPECIAL, EVENT_EXCE_NAME, "<init>", EVENT_EXCE_CONS_DESC, false);
             mv.visitInsn(ATHROW);
             mv.visitLabel(catchEnd);
             mv.visitInsn(RETURN);
@@ -296,11 +285,15 @@ public class ASMEventExecutor
             mv.visitEnd();
         }
 
-        return (EventExecutor) ClassDefiner.defineClass(name, cw.toByteArray(), loader).newInstance();
+        EventExecutor executor = (EventExecutor) ClassDefiner.defineClass(name, cw.toByteArray(), loader).newInstance();
+        CACHE.put(method, executor);
+
+        return executor;
     }
 
     private static String generateClassName()
     {
         return ASMEventExecutor.class.getName() + "_" + IDs++;
     }
+
 }

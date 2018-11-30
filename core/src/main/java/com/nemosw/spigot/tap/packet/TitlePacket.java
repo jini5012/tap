@@ -1,5 +1,6 @@
 package com.nemosw.spigot.tap.packet;
 
+import com.nemosw.spigot.tap.Tap;
 import com.nemosw.spigot.tap.text.TextComponent;
 
 public interface TitlePacket
@@ -9,14 +10,14 @@ public interface TitlePacket
 
     default Packet title(String text)
     {
-        return title(TextComponent.text(text));
+        return title(Tap.TEXT.fromText(text));
     }
 
     Packet title(TextComponent text);
 
     default Packet subtitle(String text)
     {
-        return subtitle(TextComponent.text(text));
+        return subtitle(Tap.TEXT.fromText(text));
     }
 
     Packet subtitle(TextComponent text);
@@ -25,7 +26,7 @@ public interface TitlePacket
 
     default Packet compound(String title, String subtitle, int fadeIn, int stay, int fadeOut)
     {
-        return compound(TextComponent.text(title == null ? "" : title), subtitle == null ? null : TextComponent.text(subtitle), fadeIn, stay, fadeOut);
+        return compound(Tap.TEXT.fromText(title == null ? "" : title), subtitle == null ? null : Tap.TEXT.fromText(subtitle), fadeIn, stay, fadeOut);
     }
 
     Packet compound(TextComponent title, TextComponent subtitle, int fadeIn, int stay, int fadeOut);

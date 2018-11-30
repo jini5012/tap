@@ -1,6 +1,6 @@
 package com.nemosw.spigot.tap.debug;
 
-import com.nemosw.spigot.tap.TapPlugin;
+import com.nemosw.spigot.tap.plugin.TapPlugin;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitTask;

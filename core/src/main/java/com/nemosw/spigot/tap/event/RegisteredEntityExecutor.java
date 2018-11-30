@@ -21,6 +21,7 @@ final class RegisteredEntityExecutor
 
     void remove()
     {
+        this.executor = null;
         this.node.clear();
         this.node = null;
         this.listener = null;

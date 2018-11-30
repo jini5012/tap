@@ -1,30 +1,19 @@
 package com.nemosw.spigot.tap.item;
 
-import com.nemosw.spigot.tap.LibraryLoader;
-import com.nemosw.spigot.tap.util.nbt.NBTCompound;
+import com.nemosw.spigot.tap.nbt.NBTCompound;
 import org.bukkit.inventory.ItemStack;
 
-public abstract class TapItemSupport
+public interface TapItemSupport
 {
 
-    private static final TapItemSupport INSTANCE = LibraryLoader.load(TapItemSupport.class);
+    TapItem getItem(int id);
 
-    public static TapItemSupport getInstance()
-    {
-        return INSTANCE;
-    }
+    TapItem getItem(String name);
 
-    protected TapItemSupport()
-    {}
+    TapItemStack newItemStack(TapItem item, int amount, int data);
 
-    public abstract TapItem getItem(int id);
+    TapItemStack fromItemStack(ItemStack itemStack);
 
-    public abstract TapItem getItem(String name);
-
-    public abstract TapItemStack newItemStack(TapItem item, int amount, int data);
-
-    public abstract TapItemStack fromItemStack(ItemStack itemStack);
-
-    public abstract TapItemStack loadItemStack(NBTCompound compound);
+    TapItemStack loadItemStack(NBTCompound compound);
 
 }

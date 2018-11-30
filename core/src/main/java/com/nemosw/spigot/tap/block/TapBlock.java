@@ -1,9 +1,11 @@
 package com.nemosw.spigot.tap.block;
 
+import com.nemosw.spigot.tap.Tap;
+
 public interface TapBlock
 {
 
-    TapBlock AIR = TapBlockSupport.getInstance().getBlock("air");
+    TapBlock AIR = Tap.BLOCK.getBlock("air");
 
     String getTextureId();
 

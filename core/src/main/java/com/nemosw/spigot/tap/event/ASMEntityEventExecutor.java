@@ -72,7 +72,7 @@ public final class ASMEntityEventExecutor
                 defaultExtractors.add(new DefaultExtractor(clazz));
         }
 
-        DEFAULT_EXTRACTORS = defaultExtractors.toArray(new DefaultExtractor[defaultExtractors.size()]);
+        DEFAULT_EXTRACTORS = defaultExtractors.toArray(new DefaultExtractor[0]);
     }
 
     private static Class<?> getDefaultExtractorClass(Class<?> clazz)
@@ -181,9 +181,8 @@ public final class ASMEntityEventExecutor
                         materials.add(new ListenerMaterial(method, handlerClass, entityExtractor, entityEventHandler.priority(), entityEventHandler.ignoreCancelled()));
                     }
                 }
-                catch (NoSuchMethodException | SecurityException e)
-                {
-                }
+                catch (NoSuchMethodException | SecurityException ignored)
+                {}
             }
         }
 
@@ -200,9 +199,7 @@ public final class ASMEntityEventExecutor
         return executors;
     }
 
-    private static EntityEventExecutor createListener(Method method, Class<?> handlerClass, EntityExtractor<?> entityExtractor, EntityEventPriority priority,
-                                                      boolean ignoreCancelled
-    )
+    private static EntityEventExecutor createListener(Method method, Class<?> handlerClass, EntityExtractor<?> entityExtractor, EntityEventPriority priority, boolean ignoreCancelled)
     {
         if (CACHE.containsKey(method))
             return CACHE.get(method);
@@ -231,7 +228,7 @@ public final class ASMEntityEventExecutor
                 mv.visitVarInsn(ALOAD, 1);
                 mv.visitFieldInsn(GETSTATIC, PRIORITY_NAME, priority.name(), PRIORITY_SIGN);
                 mv.visitInsn(ignoreCancelled ? ICONST_1 : ICONST_0);
-                mv.visitMethodInsn(INVOKESPECIAL, SUPER_NAME, "<init>", SUPER_CONST_DESC);
+                mv.visitMethodInsn(INVOKESPECIAL, SUPER_NAME, "<init>", SUPER_CONST_DESC, false);
                 mv.visitInsn(RETURN);
                 mv.visitMaxs(6, 2);
                 mv.visitEnd();
@@ -244,14 +241,18 @@ public final class ASMEntityEventExecutor
                 mv.visitTypeInsn(CHECKCAST, instType);
                 mv.visitVarInsn(ALOAD, 2);
                 mv.visitTypeInsn(CHECKCAST, eventType);
-                mv.visitMethodInsn(INVOKEVIRTUAL, instType, method.getName(), Type.getMethodDescriptor(method));
+                mv.visitMethodInsn(INVOKEVIRTUAL, instType, method.getName(), Type.getMethodDescriptor(method), false);
                 mv.visitInsn(RETURN);
                 mv.visitMaxs(2, 3);
                 mv.visitEnd();
             }
 
-            return (EntityEventExecutor) ClassDefiner.defineClass(name, cw.toByteArray(), declaredClass.getClassLoader()).getConstructor(EntityExtractor.class)
+            EntityEventExecutor executor = (EntityEventExecutor) ClassDefiner.defineClass(name, cw.toByteArray(), declaredClass.getClassLoader()).getConstructor(EntityExtractor.class)
                     .newInstance(entityExtractor);
+
+            CACHE.put(method, executor);
+
+            return executor;
         }
         catch (Throwable t)
         {
