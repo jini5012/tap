@@ -29,6 +29,19 @@ public final class NMSChunk implements TapChunk
 		this.z = chunk.locZ;
 	}
 
+    public Chunk getHandle()
+    {
+        Chunk chunk = this.weakChunk.get();
+
+        if (chunk == null)
+        {
+            chunk = this.world.getChunkAt(this.x, this.z);
+            this.weakChunk = new WeakReference<>(chunk);
+        }
+
+        return chunk;
+    }
+
 	@Override
 	public TapWorld getWorld()
 	{
@@ -53,19 +66,6 @@ public final class NMSChunk implements TapChunk
 	public TapBlockData getBlockData(int x, int y, int z)
 	{
 		return NMSBlockSupport.getInstance().wrapBlockData(getHandle().getBlockData(new BlockPosition(x, y, z)));
-	}
-
-	public Chunk getHandle()
-	{
-		Chunk chunk = this.weakChunk.get();
-
-		if (chunk == null)
-		{
-			chunk = this.world.getChunkAt(this.x, this.z);
-			this.weakChunk = new WeakReference<>(chunk);
-		}
-
-		return chunk;
 	}
 
 }

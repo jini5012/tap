@@ -101,7 +101,7 @@ public abstract class TextComponent
         public Builder score(String name, String objective)
         {
             Validate.notNull(name, "Name cannot be null");
-            Validate.notNull(objective, "Objective cannot be null");
+            Validate.notNull(objective, "TapObjective cannot be null");
 
             JsonObject score = new JsonObject();
             score.addProperty("name", name);

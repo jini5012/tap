@@ -14,7 +14,7 @@ public class NMSEntity implements TapEntity
 		this.entity = entity;
 	}
 
-	public Entity getEntity()
+	public Entity getHandle()
 	{
 		return entity;
 	}

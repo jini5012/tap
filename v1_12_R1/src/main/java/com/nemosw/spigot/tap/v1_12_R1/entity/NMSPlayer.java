@@ -21,7 +21,7 @@ public class NMSPlayer extends NMSLivingEntity implements TapPlayer
 		this.player = (EntityPlayer) entity;
 	}
 
-	public EntityPlayer getEntity()
+	public EntityPlayer getHandle()
 	{
 		return this.player;
 	}

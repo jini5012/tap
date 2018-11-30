@@ -19,7 +19,7 @@ public class NMSArmorStand extends NMSLivingEntity implements TapArmorStand
 	}
 
 	@Override
-	public EntityArmorStand getEntity()
+	public EntityArmorStand getHandle()
 	{
 		return this.armorStand;
 	}

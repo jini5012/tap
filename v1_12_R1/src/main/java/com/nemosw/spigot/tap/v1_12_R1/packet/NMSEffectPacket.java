@@ -136,7 +136,7 @@ public final class NMSEffectPacket implements EffectPacket
 		int id = entity.getId();
 		Packet<?>[] packets = new Packet[4];
 		packets[0] = new PacketPlayOutSpawnEntity(entity, 76);
-		packets[1] = new PacketPlayOutEntityMetadata(id, ((NMSFireworkEffect) firework).watcher, true);
+		packets[1] = new PacketPlayOutEntityMetadata(id, ((NMSFireworkEffect) firework).getHandle(), true);
 		packets[2] = new PacketPlayOutEntityStatus(entity, (byte) 17);
 		packets[3] = new PacketPlayOutEntityDestroy(id);
 
@@ -146,7 +146,7 @@ public final class NMSEffectPacket implements EffectPacket
 	@Override
 	public NMSPacket sound(Sound sound, com.nemosw.spigot.tap.sound.SoundCategory category, double x, double y, double z, float volume, float pitch)
 	{
-		return new NMSPacketFixed(new PacketPlayOutNamedSoundEffect(((NMSSound) sound).soundEffect, SOUND_CATEGORIES[category.ordinal()], x, y, z, volume, pitch));
+		return new NMSPacketFixed(new PacketPlayOutNamedSoundEffect(((NMSSound) sound).getHandle(), SOUND_CATEGORIES[category.ordinal()], x, y, z, volume, pitch));
 	}
 
 	private static final EntityLightning LIGHTNING = new EntityLightning(((CraftServer) Bukkit.getServer()).getServer().getWorld(), 0.0D, 0.0D, 0.0D, true);

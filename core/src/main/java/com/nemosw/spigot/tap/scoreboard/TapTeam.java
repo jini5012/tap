@@ -4,9 +4,9 @@ import org.bukkit.ChatColor;
 
 import java.util.Set;
 
-public interface Team
+public interface TapTeam
 {
-    Scoreboard getScoreboard();
+    TapScoreboard getScoreboard();
 
     String getName();
 

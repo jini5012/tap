@@ -12,12 +12,10 @@ public final class NMSFireworkEffect implements FireworkEffect
 	private static final Item ITEM_FIRE_WORK = Item.getById(401);
 	
 	public static final EntityFireworks ENTITY_FIRE_WORK = new EntityFireworks(((CraftServer) Bukkit.getServer()).getServer().getWorld());
-	
-	static final int ID = ENTITY_FIRE_WORK.getId();
 
-	public final DataWatcher watcher;
+	private final DataWatcher watcher;
 
-	NMSFireworkEffect(FireworkEffect.Builder builder)
+	public NMSFireworkEffect(FireworkEffect.Builder builder)
 	{
 		NBTTagCompound tag = new NBTTagCompound();
 		NBTTagCompound fw = new NBTTagCompound();
@@ -40,5 +38,10 @@ public final class NMSFireworkEffect implements FireworkEffect
 
 		this.watcher = watcher;
 	}
+
+	public DataWatcher getHandle()
+    {
+        return watcher;
+    }
 	
 }

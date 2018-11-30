@@ -1,14 +1,15 @@
 package com.nemosw.spigot.tap.v1_12_R1.scoreboard;
 
 import com.nemosw.spigot.tap.scoreboard.DisplaySlot;
-import com.nemosw.spigot.tap.scoreboard.Score;
+import com.nemosw.spigot.tap.scoreboard.TapScore;
+import com.nemosw.spigot.tap.scoreboard.TapScoreboard;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.*;
 
-public final class NMSScoreboard implements com.nemosw.spigot.tap.scoreboard.Scoreboard
+public final class NMSScoreboard implements TapScoreboard
 {
 	static final Scoreboard FAKE_SCOREBOARD = new Scoreboard();
 
@@ -100,10 +101,10 @@ public final class NMSScoreboard implements com.nemosw.spigot.tap.scoreboard.Sco
 	}
 
 	@Override
-	public Set<Score> resetScores(String name)
+	public Set<TapScore> resetScores(String name)
 	{
 		Map<String, NMSObjective> objectivesByName = this.objectivesByName;
-		Set<Score> scores = new HashSet<>(objectivesByName.size());
+		Set<TapScore> tapScores = new HashSet<>(objectivesByName.size());
 
 		for (NMSObjective objective : objectivesByName.values())
 		{
@@ -112,14 +113,14 @@ public final class NMSScoreboard implements com.nemosw.spigot.tap.scoreboard.Sco
 			if (score != null)
 			{
 				score.remove();
-				scores.add(score);
+				tapScores.add(score);
 			}
 		}
 
-		if (scores.size() > 0)
+		if (tapScores.size() > 0)
 			sendAll(new PacketPlayOutScoreboardScore(name));
 
-		return scores;
+		return tapScores;
 	}
 
 	@Override
