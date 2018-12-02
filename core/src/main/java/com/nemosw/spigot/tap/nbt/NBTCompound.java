@@ -139,8 +139,8 @@ public interface NBTCompound
     /**
      * 키가 있는지 확인합니다.
      *
-     * @param name
-     * @return
+     * @param name 키 이름
+     * @return 등록 여부
      */
     boolean contains(String name);
 
