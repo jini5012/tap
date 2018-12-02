@@ -6,7 +6,7 @@ allprojects {
     apply plugin: 'java'
 
     group 'com.nemosw.spigot'
-    version '0.2.1'
+    version '1.0'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -51,7 +51,7 @@ subprojects {
                 artifact javadocJar
                 pom {
                     name = parent.name + "-" + project.name
-                    description = 'Nemo\'s minecraft library'
+                    description = 'NemoSW minecraft library'
                     url = 'https://github.com/nemosrc/tap'
                     licenses {
                         license {
@@ -87,16 +87,16 @@ project(':core') {
 
     dependencies {
         compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
-        compile 'com.nemosw.mox:mox-collections:0.1'
-        compile 'com.nemosw.mox:mox-task:0.1'
-        compile 'com.nemosw.mox:mox-math:0.2.1'
-        compile 'com.nemosw.mox:mox-tools:0.1'
+        compile 'com.nemosw.mox:mox-collections:1.0'
+        compile 'com.nemosw.mox:mox-task:1.0'
+        compile 'com.nemosw.mox:mox-math:1.0'
+        compile 'com.nemosw.mox:mox-tools:1.0'
     }
 }
 
 shadowJar {
     classifier = 'universal'
-    
+
     dependencies {
         exclude(dependency('com.google.code.gson:gson'))
     }

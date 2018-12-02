@@ -63,10 +63,7 @@ public final class ArgumentList
         return Boolean.parseBoolean(next());
     }
 
-    /**
-     * @return parsed byte value
-     * @throws NumberFormatException
-     */
+
     public byte nextByte()
     {
         return Byte.parseByte(next());
@@ -84,10 +81,6 @@ public final class ArgumentList
         }
     }
 
-    /**
-     * @return
-     * @throws NumberFormatException
-     */
     public short nextShort()
     {
         return Short.parseShort(next());
@@ -105,10 +98,6 @@ public final class ArgumentList
         }
     }
 
-    /**
-     * @return
-     * @throws NumberFormatException
-     */
     public int nextInt()
     {
         return Integer.parseInt(next());
@@ -126,10 +115,6 @@ public final class ArgumentList
         }
     }
 
-    /**
-     * @return
-     * @throws NumberFormatException
-     */
     public long nextLong()
     {
         return Long.parseLong(next());
@@ -147,11 +132,6 @@ public final class ArgumentList
         }
     }
 
-    /**
-     *
-     * @return
-     * @exception NumberFormatException
-     */
     public float nextFloat()
     {
         return Float.parseFloat(next());
@@ -169,11 +149,6 @@ public final class ArgumentList
         }
     }
 
-    /**
-     *
-     * @return
-     * @exception NumberFormatException
-     */
     public double nextDouble()
     {
         return Double.parseDouble(next());
