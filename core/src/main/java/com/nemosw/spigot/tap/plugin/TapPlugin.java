@@ -23,12 +23,14 @@ public final class TapPlugin extends JavaPlugin
     @Override
     public void onLoad()
     {
-        TapLoader.init();
+        TapLoader.init(this);
     }
 
     @Override
     public void onEnable()
     {
+        TapLoader.load(this);
+
         setupCommands();
         setupDebugger();
 
