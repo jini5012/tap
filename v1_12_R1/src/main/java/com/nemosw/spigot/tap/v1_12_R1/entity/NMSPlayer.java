@@ -1,9 +1,9 @@
 package com.nemosw.spigot.tap.v1_12_R1.entity;
 
 import com.nemosw.spigot.tap.entity.TapPlayer;
-import com.nemosw.spigot.tap.inventory.TapInventoryPlayer;
+import com.nemosw.spigot.tap.inventory.TapPlayerInventory;
 import com.nemosw.spigot.tap.item.TapItemStack;
-import com.nemosw.spigot.tap.v1_12_R1.inventory.NMSInventoryPlayer;
+import com.nemosw.spigot.tap.v1_12_R1.inventory.NMSPlayerInventory;
 import net.minecraft.server.v1_12_R1.Entity;
 import net.minecraft.server.v1_12_R1.EntityPlayer;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftInventoryPlayer;
@@ -44,14 +44,14 @@ public class NMSPlayer extends NMSLivingEntity implements TapPlayer
 		return this.player.getFoodData().foodLevel;
 	}
 
-	private TapInventoryPlayer inv;
+	private TapPlayerInventory inv;
 
 	@Override
-	public TapInventoryPlayer getInventory()
+	public TapPlayerInventory getInventory()
 	{
-		TapInventoryPlayer inv = this.inv;
+		TapPlayerInventory inv = this.inv;
 
-		return inv == null ? this.inv = new NMSInventoryPlayer((CraftInventoryPlayer) this.player.getBukkitEntity().getInventory(), this) : inv;
+		return inv == null ? this.inv = new NMSPlayerInventory((CraftInventoryPlayer) this.player.getBukkitEntity().getInventory(), this) : inv;
 	}
 
 	@Override

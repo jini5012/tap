@@ -1,6 +1,6 @@
 package com.nemosw.spigot.tap.entity;
 
-import com.nemosw.spigot.tap.inventory.TapInventoryPlayer;
+import com.nemosw.spigot.tap.inventory.TapPlayerInventory;
 import com.nemosw.spigot.tap.item.TapItemStack;
 import org.bukkit.entity.Player;
 
@@ -13,7 +13,7 @@ public interface TapPlayer extends TapLivingEntity
 
     int getFoodLevel();
 
-    TapInventoryPlayer getInventory();
+    TapPlayerInventory getInventory();
 
     TapItemStack getHeldItemMainHand();
 

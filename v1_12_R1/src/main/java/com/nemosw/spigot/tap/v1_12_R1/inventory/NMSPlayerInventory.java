@@ -1,7 +1,7 @@
 package com.nemosw.spigot.tap.v1_12_R1.inventory;
 
 import com.nemosw.spigot.tap.inventory.Slot;
-import com.nemosw.spigot.tap.inventory.TapInventoryPlayer;
+import com.nemosw.spigot.tap.inventory.TapPlayerInventory;
 import com.nemosw.spigot.tap.item.TapItemStack;
 import com.nemosw.spigot.tap.v1_12_R1.entity.NMSPlayer;
 import com.nemosw.spigot.tap.v1_12_R1.item.NMSItemStack;
@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public final class NMSInventoryPlayer extends NMSInventory implements TapInventoryPlayer
+public final class NMSPlayerInventory extends NMSInventory implements TapPlayerInventory
 {
 
     public final NMSPlayer holder;
@@ -23,7 +23,7 @@ public final class NMSInventoryPlayer extends NMSInventory implements TapInvento
 
     public final CraftInventoryPlayer bukkitInv;
 
-    public NMSInventoryPlayer(CraftInventoryPlayer inv, NMSPlayer holder)
+    public NMSPlayerInventory(CraftInventoryPlayer inv, NMSPlayer holder)
     {
         super(inv);
 

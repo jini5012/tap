@@ -74,6 +74,8 @@ public interface TapItemStack
         return addLore(Arrays.asList(lore));
     }
 
+    TapItemStack setUnbreakable(boolean flag);
+
     TapItemStack setHideFlags(int hideFlags);
 
     TapItemStack setTag(NBTCompound tag);

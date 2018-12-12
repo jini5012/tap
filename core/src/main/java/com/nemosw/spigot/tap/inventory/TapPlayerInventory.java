@@ -5,7 +5,7 @@ import com.nemosw.spigot.tap.item.TapItemStack;
 
 import java.util.List;
 
-public interface TapInventoryPlayer extends TapInventory
+public interface TapPlayerInventory extends TapInventory
 {
 
     List<? extends TapItemStack> getInventoryContents();

@@ -25,6 +25,8 @@ public final class NMSItemStack implements TapItemStack
 
 	private static final String TAG_LORE = "Lore";
 
+	private static final String TAG_UNBREAKABLE = "Unbreakable";
+
 	private static final String TAG_HIDE_FLAGS = "HideFlags";
 
 	private final ItemStack itemStack;
@@ -373,7 +375,40 @@ public final class NMSItemStack implements TapItemStack
 		return this;
 	}
 
-	@Override
+    @Override
+    public NMSItemStack setUnbreakable(boolean flag)
+    {
+        ItemStack itemStack = this.itemStack;
+
+        if (flag)
+        {
+            NBTTagCompound tag = itemStack.getTag();
+
+            if (tag == null)
+            {
+                tag = new NBTTagCompound();
+                this.itemStack.setTag(tag);
+            }
+
+            tag.setBoolean(TAG_UNBREAKABLE, true);
+        }
+        else
+        {
+            NBTTagCompound tag = this.itemStack.getTag();
+
+            if (tag != null)
+            {
+                tag.remove(TAG_UNBREAKABLE);
+
+                if (tag.isEmpty())
+                    itemStack.setTag(null);
+            }
+        }
+
+        return this;
+    }
+
+    @Override
 	public NMSItemStack setHideFlags(int hideFlags)
 	{
 		ItemStack itemStack = this.itemStack;
