@@ -8,7 +8,7 @@ allprojects {
     apply plugin: 'java'
 
     group 'com.nemosw.spigot'
-    version '1.2.1'
+    version '1.2.2'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -96,7 +96,7 @@ project(':core') {
         compileOnly files(Jvm.current().toolsJar)
         compile 'com.nemosw.mox:mox-collections:1.0'
         compile 'com.nemosw.mox:mox-task:1.0'
-        compile 'com.nemosw.mox:mox-math:1.0'
+        compile 'com.nemosw.mox:mox-math:1.0.1'
         compile 'com.nemosw.mox:mox-tools:1.0'
     }
 }

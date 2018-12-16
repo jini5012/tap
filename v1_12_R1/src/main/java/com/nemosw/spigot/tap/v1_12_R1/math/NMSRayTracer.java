@@ -179,6 +179,7 @@ public final class NMSRayTracer implements RayTracer
     public List<NMSRayTraceResult> rayTraceEntities(org.bukkit.entity.Entity exclusion, double expand, Predicate<org.bukkit.entity.Entity> selector)
     {
         List<Entity> entities = getNMSEntities(exclusion, expand, toNMSSelector(selector));
+
         ArrayList<NMSRayTraceResult> results = new ArrayList<>(Math.min(10, entities.size()));
         Vec3D from = this.from, to = this.to;
 
