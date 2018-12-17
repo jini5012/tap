@@ -10,6 +10,8 @@ public interface TapItemSupport
 
     TapItem getItem(String name);
 
+    Iterable<? extends TapItem> getItems();
+
     TapItemStack newItemStack(TapItem item, int amount, int data);
 
     TapItemStack fromItemStack(ItemStack itemStack);

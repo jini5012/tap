@@ -1,6 +1,7 @@
 package com.nemosw.spigot.tap.v1_12_R1.item;
 
 
+import com.google.common.collect.Iterables;
 import com.nemosw.spigot.tap.item.TapItem;
 import com.nemosw.spigot.tap.item.TapItemStack;
 import com.nemosw.spigot.tap.item.TapItemSupport;
@@ -57,6 +58,12 @@ public final class NMSItemSupport implements TapItemSupport
     public NMSItem getItem(String name)
     {
         return wrapItem(Item.REGISTRY.get(new MinecraftKey(name)));
+    }
+
+    @Override
+    public Iterable<NMSItem> getItems()
+    {
+        return Iterables.transform(Item.REGISTRY, this::wrapItem);
     }
 
     @Override
