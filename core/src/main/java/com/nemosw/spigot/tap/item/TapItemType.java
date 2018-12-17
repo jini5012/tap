@@ -3,7 +3,6 @@ package com.nemosw.spigot.tap.item;
 import com.nemosw.spigot.tap.Tap;
 import com.nemosw.spigot.tap.nbt.NBTCompound;
 import com.nemosw.spigot.tap.nbt.NBTList;
-import com.nemosw.spigot.tap.nbt.NBTSupport;
 
 import java.util.ArrayList;
 import java.util.List;

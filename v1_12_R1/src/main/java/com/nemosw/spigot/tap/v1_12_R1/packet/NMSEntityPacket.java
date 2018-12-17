@@ -3,6 +3,7 @@ package com.nemosw.spigot.tap.v1_12_R1.packet;
 import com.nemosw.spigot.tap.AnimationType;
 import com.nemosw.spigot.tap.item.TapItemStack;
 import com.nemosw.spigot.tap.packet.EntityPacket;
+import com.nemosw.spigot.tap.v1_12_R1.entity.NMSEquipmentSlot;
 import com.nemosw.spigot.tap.v1_12_R1.item.NMSItemStack;
 import net.minecraft.server.v1_12_R1.*;
 import net.minecraft.server.v1_12_R1.PacketPlayOutEntity.PacketPlayOutRelEntityMove;
@@ -13,20 +14,6 @@ import org.bukkit.inventory.EquipmentSlot;
 
 public class NMSEntityPacket implements EntityPacket
 {
-
-	private static final EnumItemSlot[] EQUIPMENT_SLOTS;
-
-	static
-	{
-		EnumItemSlot[] slots = new EnumItemSlot[EnumItemSlot.values().length];
-		slots[EquipmentSlot.CHEST.ordinal()] = EnumItemSlot.CHEST;
-		slots[EquipmentSlot.FEET.ordinal()] = EnumItemSlot.FEET;
-		slots[EquipmentSlot.HEAD.ordinal()] = EnumItemSlot.HEAD;
-		slots[EquipmentSlot.LEGS.ordinal()] = EnumItemSlot.LEGS;
-		slots[EquipmentSlot.HAND.ordinal()] = EnumItemSlot.MAINHAND;
-		slots[EquipmentSlot.OFF_HAND.ordinal()] = EnumItemSlot.OFFHAND;
-		EQUIPMENT_SLOTS = slots;
-	}
 
 	@Override
 	public NMSPacket animation(org.bukkit.entity.Entity entity, AnimationType animation)
@@ -43,7 +30,7 @@ public class NMSEntityPacket implements EntityPacket
 	@Override
 	public NMSPacket equipment(int entityId, EquipmentSlot slot, TapItemStack item)
 	{
-		return new NMSPacketFixed(new PacketPlayOutEntityEquipment(entityId, EQUIPMENT_SLOTS[slot.ordinal()], item == null ? ItemStack.a : ((NMSItemStack) item).getHandle()));
+		return new NMSPacketFixed(new PacketPlayOutEntityEquipment(entityId, NMSEquipmentSlot.toNMS(slot), item == null ? ItemStack.a : ((NMSItemStack) item).getHandle()));
 	}
 
 	@Override

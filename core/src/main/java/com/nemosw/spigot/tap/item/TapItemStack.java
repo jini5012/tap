@@ -2,7 +2,6 @@ package com.nemosw.spigot.tap.item;
 
 import com.nemosw.spigot.tap.Tap;
 import com.nemosw.spigot.tap.nbt.NBTCompound;
-import com.nemosw.spigot.tap.nbt.NBTSupport;
 import org.bukkit.World;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
