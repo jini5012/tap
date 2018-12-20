@@ -21,6 +21,8 @@ public interface EntityPacket
 
     Packet relativeMove(int entityId, double moveX, double moveY, double moveZ, boolean onGround);
 
+    Packet relativeMoveLook(int entityId, double moveX, double moveY, double moveZ, float yaw, float pitch, boolean onGround);
+
     Packet spawnMob(LivingEntity entity);
 
     Packet teleport(Entity entity, double x, double y, double z, float yaw, float pitch, boolean onGround);

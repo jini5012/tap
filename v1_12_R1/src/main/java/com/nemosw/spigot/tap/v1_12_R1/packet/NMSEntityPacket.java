@@ -3,6 +3,7 @@ package com.nemosw.spigot.tap.v1_12_R1.packet;
 import com.nemosw.spigot.tap.AnimationType;
 import com.nemosw.spigot.tap.item.TapItemStack;
 import com.nemosw.spigot.tap.packet.EntityPacket;
+import com.nemosw.spigot.tap.packet.Packet;
 import com.nemosw.spigot.tap.v1_12_R1.entity.NMSEquipmentSlot;
 import com.nemosw.spigot.tap.v1_12_R1.item.NMSItemStack;
 import net.minecraft.server.v1_12_R1.*;
@@ -53,7 +54,13 @@ public class NMSEntityPacket implements EntityPacket
 		return new NMSPacketFixed(new PacketPlayOutRelEntityMove(entityId, (long) (moveX * 4096), (long) (moveY * 4096), (long) (moveZ * 4096), onGround));
 	}
 
-	@Override
+    @Override
+    public Packet relativeMoveLook(int entityId, double moveX, double moveY, double moveZ, float yaw, float pitch, boolean onGround)
+    {
+        return new NMSPacketFixed(new PacketPlayOutEntity.PacketPlayOutRelEntityMoveLook(entityId, (long) (moveX * 4096), (long) (moveY * 4096), (long) (moveZ * 4096), (byte) (yaw * 255.0D / 360.0D), (byte) (pitch * 255.0D / 360.0D), onGround));
+    }
+
+    @Override
 	public NMSPacket spawnMob(LivingEntity entity)
 	{
 		return new NMSPacketFixed(new PacketPlayOutSpawnEntityLiving(((CraftLivingEntity) entity).getHandle()));
