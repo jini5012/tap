@@ -8,7 +8,7 @@ allprojects {
     apply plugin: 'java'
 
     group 'com.nemosw.spigot'
-    version '1.2.5'
+    version '1.2.6'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -97,7 +97,7 @@ project(':core') {
         compile 'com.nemosw.mox:mox-collections:1.0'
         compile 'com.nemosw.mox:mox-task:1.0'
         compile 'com.nemosw.mox:mox-math:1.0.1'
-        compile 'com.nemosw.mox:mox-tools:1.0'
+        compile 'com.nemosw.mox:mox-tools:1.1'
     }
 }
 
@@ -116,5 +116,4 @@ dependencies {
 task spigotJar(type: Copy) {
     from shadowJar
     into '/run/plugins/'
-    into 'C:\\Users\\nemo\\Desktop\\spigot\\plugins'
 }
