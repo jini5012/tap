@@ -24,7 +24,19 @@ public interface Packet
 
     TitlePacket TITLE = LibraryLoader.load(TitlePacket.class);
 
-    void send(Player player);
+    @Deprecated
+    default void send(Player player)
+    {
+        sendTo(player);
+    }
+
+    void sendTo(Player player);
+
+    default void sendTo(Iterable<? extends Player> players)
+    {
+        for (Player player : players)
+            sendTo(player);
+    }
 
     void sendAll();
 

@@ -19,7 +19,7 @@ public interface NMSPacket extends Packet
 	DedicatedPlayerList SERVER = ((CraftServer) Bukkit.getServer()).getHandle();
 	
 	@Override
-	default void send(Player player)
+	default void sendTo(Player player)
 	{
 		send(((CraftPlayer) player).getHandle());
 	}
