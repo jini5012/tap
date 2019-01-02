@@ -1,5 +1,7 @@
 package com.nemosw.spigot.tap.v1_12_R1.packet;
 
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import com.nemosw.mox.math.Vector;
 import com.nemosw.mox.math.VectorSpace;
 import com.nemosw.spigot.tap.Effect;
@@ -9,10 +11,13 @@ import com.nemosw.spigot.tap.packet.EffectPacket;
 import com.nemosw.spigot.tap.sound.Sound;
 import com.nemosw.spigot.tap.v1_12_R1.firework.NMSFireworkEffect;
 import com.nemosw.spigot.tap.v1_12_R1.sound.NMSSound;
+import io.netty.buffer.Unpooled;
+import io.netty.handler.codec.EncoderException;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_12_R1.CraftServer;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -144,9 +149,29 @@ public final class NMSEffectPacket implements EffectPacket
 	}
 
 	@Override
-	public NMSPacket sound(Sound sound, com.nemosw.spigot.tap.sound.SoundCategory category, double x, double y, double z, float volume, float pitch)
+	public NMSPacket namedSound(Sound sound, com.nemosw.spigot.tap.sound.SoundCategory category, double x, double y, double z, float volume, float pitch)
 	{
 		return new NMSPacketFixed(new PacketPlayOutNamedSoundEffect(((NMSSound) sound).getHandle(), SOUND_CATEGORIES[category.ordinal()], x, y, z, volume, pitch));
+	}
+
+	@Override
+	public NMSPacket customSound(String sound, com.nemosw.spigot.tap.sound.SoundCategory category, double x, double y, double z, float volume, float pitch)
+	{
+		return new NMSPacketFixed(new PacketPlayOutCustomSoundEffect(sound, SOUND_CATEGORIES[category.ordinal()], x, y, z, volume, pitch));
+	}
+
+	@Override
+	public NMSPacket stopSound(com.nemosw.spigot.tap.sound.SoundCategory category, String sound)
+	{
+		String categoryName = SOUND_CATEGORIES[category.ordinal()].a();
+
+		return (NMSPacketLazy) () -> {
+			PacketDataSerializer buffer = new PacketDataSerializer(Unpooled.buffer());
+			buffer.a(categoryName);
+			buffer.a(sound);
+
+			return new PacketPlayOutCustomPayload("MC|StopSound", buffer);
+		};
 	}
 
 	private static final EntityLightning LIGHTNING = new EntityLightning(((CraftServer) Bukkit.getServer()).getServer().getWorld(), 0.0D, 0.0D, 0.0D, true);

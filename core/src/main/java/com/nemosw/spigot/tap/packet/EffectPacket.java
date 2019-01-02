@@ -19,7 +19,17 @@ public interface EffectPacket
 
     Packet firework(FireworkEffect firework, double x, double y, double z);
 
-    Packet sound(Sound sound, SoundCategory category, double x, double y, double z, float volume, float pitch);
+    @Deprecated
+    default Packet sound(Sound sound, SoundCategory category, double x, double y, double z, float volume, float pitch)
+    {
+        return namedSound(sound, category, x, y, z, volume, pitch);
+    }
+
+    Packet namedSound(Sound sound, SoundCategory category, double x, double y, double z, float volume, float pitch);
+
+    Packet customSound(String sound, SoundCategory category, double x, double y, double z, float volume, float pitch);
+
+    Packet stopSound(SoundCategory category, String sound);
 
     Packet thunderbolt(double x, double y, double z);
 
