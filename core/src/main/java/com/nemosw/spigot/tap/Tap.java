@@ -29,7 +29,7 @@ public final class Tap
 
     public static final SoundSupport SOUND = LibraryLoader.load(SoundSupport.class);
 
-    public static final ProfileSupport INSTANCE = LibraryLoader.load(ProfileSupport.class);
+    public static final ProfileSupport PROFILE = LibraryLoader.load(ProfileSupport.class);
 
     public static final ScoreboardSupport SCOREBOARD = LibraryLoader.load(ScoreboardSupport.class);
 
