@@ -105,7 +105,9 @@ public final class NMSMathSupport implements MathSupport
 
         List<Entity> entities = getEntitiesInBox(world, exclusion, new AxisAlignedBB(from.x, from.y, from.z, to.x, to.y, to.z).grow(expand, expand, expand), selector);
 
-        return calculateRayTrace(entities, from, to, expand);
+        MovingObjectPosition entityHit = calculateRayTrace(entities, from, to, expand);
+
+        return entityHit != null ? entityHit : blockHit;
     }
 
     static Entity unwrapEntity(org.bukkit.entity.Entity entity)
