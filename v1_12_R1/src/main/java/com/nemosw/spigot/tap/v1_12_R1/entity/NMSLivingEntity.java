@@ -6,6 +6,7 @@ import com.nemosw.spigot.tap.v1_12_R1.item.NMSItemStack;
 import com.nemosw.spigot.tap.v1_12_R1.item.NMSItemSupport;
 import net.minecraft.server.v1_12_R1.Entity;
 import net.minecraft.server.v1_12_R1.EntityLiving;
+import net.minecraft.server.v1_12_R1.EnumItemSlot;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EquipmentSlot;
 
@@ -54,7 +55,7 @@ public class NMSLivingEntity extends NMSEntity implements TapLivingEntity
     @Override
     public void setEquipment(EquipmentSlot slot, TapItemStack item)
     {
-        living.setEquipment(NMSEquipmentSlot.toNMS(slot), NMSItemSupport.unwrapItemStack(item));
+        living.setSlot(NMSEquipmentSlot.toNMS(slot), NMSItemSupport.unwrapItemStack(item));
     }
 
 }
