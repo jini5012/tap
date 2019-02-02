@@ -1,5 +1,6 @@
 package com.nemosw.spigot.tap.entity;
 
+import com.nemosw.mox.math.Vector;
 import org.bukkit.entity.ArmorStand;
 
 public interface TapArmorStand extends TapLivingEntity
@@ -7,6 +8,8 @@ public interface TapArmorStand extends TapLivingEntity
 
     @Override
     ArmorStand getBukkitEntity();
+
+    Vector getHeadPos();
 
     void setHeadPose(float x, float y, float z);
 

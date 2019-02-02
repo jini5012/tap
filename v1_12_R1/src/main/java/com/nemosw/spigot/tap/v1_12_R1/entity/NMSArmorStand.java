@@ -1,13 +1,20 @@
 package com.nemosw.spigot.tap.v1_12_R1.entity;
 
+import com.nemosw.mox.math.Vector;
 import com.nemosw.spigot.tap.entity.TapArmorStand;
 import net.minecraft.server.v1_12_R1.Entity;
 import net.minecraft.server.v1_12_R1.EntityArmorStand;
+import net.minecraft.server.v1_12_R1.Vec3D;
 import net.minecraft.server.v1_12_R1.Vector3f;
 import org.bukkit.entity.ArmorStand;
 
 public class NMSArmorStand extends NMSLivingEntity implements TapArmorStand
 {
+
+	private static Vector toVector(Vector3f v)
+	{
+		return new Vector(v.getX(), v.getY(), v.getZ());
+	}
 
 	private final EntityArmorStand armorStand;
 
@@ -28,6 +35,12 @@ public class NMSArmorStand extends NMSLivingEntity implements TapArmorStand
 	public ArmorStand getBukkitEntity()
 	{
 		return (ArmorStand) this.armorStand.getBukkitEntity();
+	}
+
+	@Override
+	public Vector getHeadPos()
+	{
+		return toVector(armorStand.headPose);
 	}
 
 	@Override
