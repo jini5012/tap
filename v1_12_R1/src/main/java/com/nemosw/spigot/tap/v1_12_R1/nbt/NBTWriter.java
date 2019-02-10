@@ -116,7 +116,7 @@ abstract class NBTWriters
             if (s.isEmpty())
                 s = "§r";
 
-            builder.append("\"").append(s).append("\"");
+            builder.append('"').append(s.replace("\"", "\\\"")).append('"');
         }
     }
 
@@ -279,7 +279,7 @@ abstract class NBTWriters
             while (true)
             {
                 String name = iterator.next();
-                builder.append(name).append(':');
+                builder.append('"').append(name).append('"').append(':');
                 NBTBase value = compound.get(name);
                 WRITERS[value.getTypeId()].write(value, builder);
 
