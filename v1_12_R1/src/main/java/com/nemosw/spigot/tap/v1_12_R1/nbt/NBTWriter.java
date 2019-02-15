@@ -113,9 +113,6 @@ abstract class NBTWriters
         {
             String s = ((NBTTagString) nbt).c_();
 
-            if (s.isEmpty())
-                s = "§r";
-
             builder.append('"').append(s.replace("\"", "\\\"")).append('"');
         }
     }
@@ -240,7 +237,7 @@ abstract class NBTWriters
                         {
                             String s = list.getString(i++);
 
-                            builder.append("\"").append(s.isEmpty() ? "§r" : s).append("\"");
+                            builder.append('"').append(s.replace("\"", "\\\"")).append('"');
 
                             if (i >= size)
                                 break;
@@ -279,7 +276,7 @@ abstract class NBTWriters
             while (true)
             {
                 String name = iterator.next();
-                builder.append('"').append(name).append('"').append(':');
+                builder.append('\"').append(name.replace("\"", "\\\"")).append('\"').append(':');
                 NBTBase value = compound.get(name);
                 WRITERS[value.getTypeId()].write(value, builder);
 
