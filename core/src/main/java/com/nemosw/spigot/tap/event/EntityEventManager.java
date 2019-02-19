@@ -1,11 +1,9 @@
 package com.nemosw.spigot.tap.event;
 
+import com.nemosw.spigot.tap.Tap;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.Event;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
+import org.bukkit.event.*;
 import org.bukkit.plugin.EventExecutor;
 import org.bukkit.plugin.Plugin;
 
@@ -14,42 +12,46 @@ import java.util.*;
 public final class EntityEventManager
 {
 
-    private static final EventListenerExecutor EXECUTOR = new EventListenerExecutor();
+    private static final EventExecutor EVENT_EXECUTOR = (listener, event) -> ((EventListener) listener).onEvent(event);
+
 
     private final Plugin plugin;
 
+    private final InvalidEntityListener invalidEntityListener;
+
     private final Map<Class<? extends Event>, EventListener> registeredListeners = new HashMap<>();
 
-    private final Map<Class<? extends EntityListener>, EntityEventExecutor[]> registeredExecutors = new HashMap<>();
+    private final Map<Class<? extends EntityListener>, List<EntityEventExecutor>> registeredExecutors = new HashMap<>();
 
-    private final Map<Entity, EventEntity> entities = new WeakHashMap<>();
+    private final Map<Object, EventEntity> entities = new WeakHashMap<>();
 
     public EntityEventManager(Plugin plugin)
     {
         this.plugin = plugin;
+        invalidEntityListener = new InvalidEntityListener(this);
 
-        ASMEventExecutor.registerEvents(new EntityEventListener(this), plugin);
+        ASMEventExecutor.registerEvents(invalidEntityListener, plugin);
     }
 
-    private EntityEventExecutor[] createExecutor(Class<? extends EntityListener> clazz)
+    private List<EntityEventExecutor> getOrCreateExecutors(Class<? extends EntityListener> clazz)
     {
-        EntityEventExecutor[] executors = this.registeredExecutors.get(clazz);
+        List<EntityEventExecutor> executors = registeredExecutors.get(clazz);
 
         if (executors == null)
         {
-            this.registeredExecutors.put(clazz, executors = ASMEntityEventExecutor.createExecutors(clazz));
+            registeredExecutors.put(clazz, executors = ASMEntityEventExecutor.getOrCreateHandlers(clazz));
 
             for (EntityEventExecutor executor : executors)
             {
                 Class<? extends Event> handlerClass = executor.handlerClass;
-                EventListener listener = this.registeredListeners.get(handlerClass);
+                EventListener listener = registeredListeners.get(handlerClass);
 
                 if (listener == null)
                 {
                     listener = new EventListener();
-                    this.plugin.getServer().getPluginManager().registerEvent(handlerClass, listener, EventPriority.HIGH, EXECUTOR, this.plugin, false);
-                    this.plugin.getLogger().info("Entity listener registered: " + handlerClass.getName());
-                    this.registeredListeners.put(handlerClass, listener);
+                    plugin.getServer().getPluginManager().registerEvent(handlerClass, listener, EventPriority.HIGH, EVENT_EXECUTOR, plugin, false);
+                    plugin.getLogger().info("Entity listener registered: " + handlerClass.getName());
+                    registeredListeners.put(handlerClass, listener);
                 }
 
                 listener.addExtractor(executor.entityExtractor);
@@ -61,29 +63,30 @@ public final class EntityEventManager
 
     public void registerListener(Class<? extends EntityListener> clazz)
     {
-        createExecutor(clazz);
+        getOrCreateExecutors(clazz);
     }
 
-    public RegisteredEntityListener registerEvents(Entity entity, EntityListener listener)
+    public void registerEvents(Entity entity, EntityListener listener)
     {
         if (entity == null)
             throw new NullPointerException("Entity cannot be null");
         if (listener == null)
             throw new NullPointerException("Listener cannot be null");
 
-        EntityEventExecutor[] executors = createExecutor(listener.getClass());
+        List<EntityEventExecutor> executors = getOrCreateExecutors(listener.getClass());
 
-        EventEntity eventEntity = this.entities.get(entity);
+        Object nmsEntity = Tap.ENTITY.getHandle(entity);
+        EventEntity eventEntity = this.entities.get(nmsEntity);
 
         if (eventEntity == null)
-            this.entities.put(entity, eventEntity = new EventEntity());
+            this.entities.put(nmsEntity, eventEntity = new EventEntity());
 
-        return eventEntity.registerEvents(listener, executors);
+        eventEntity.register(listener, executors);
     }
 
-    void handleEvent(Entity entity, EntityEventKey key, Event event)
+    void handleEvent(Entity entity, EventKey key, Event event)
     {
-        EventEntity eventEntity = this.entities.get(entity);
+        EventEntity eventEntity = entities.get(Tap.ENTITY.getHandle(entity));
 
         if (eventEntity != null)
             eventEntity.handleEvent(key, event);
@@ -97,26 +100,19 @@ public final class EntityEventManager
             eventEntity.clear();
     }
 
-    public void unregisterAll()
+    public void unregister()
     {
-        for (EventListener listener : this.registeredListeners.values())
+        HandlerList.unregisterAll(invalidEntityListener);
+
+        for (EventListener listener : registeredListeners.values())
             HandlerList.unregisterAll(listener);
 
-        this.registeredListeners.clear();
-        this.registeredExecutors.clear();
-        this.entities.clear();
+        registeredListeners.clear();
+        registeredExecutors.clear();
+        entities.clear();
     }
 
-    static final EntityEventKey EVENT_KEY = new EntityEventKey();
-
-    private static class EventListenerExecutor implements EventExecutor
-    {
-        @Override
-        public void execute(Listener listener, Event event)
-        {
-            ((EventListener) listener).onEvent(event);
-        }
-    }
+    static final EventKey EVENT_KEY = new EventKey();
 
     private class EventListener implements Listener
     {

@@ -25,7 +25,8 @@ import java.util.Map;
 
 public abstract class EntityExtractor<T extends Event>
 {
-    private final Map<Class<?>, EntityEventKey> eventKeyByEventClass = new HashMap<>();
+
+    private final Map<Class<?>, EventKey> eventKeyByEventClass = new HashMap<>();
 
     final Class<? extends Event> eventClass;
 
@@ -35,12 +36,12 @@ public abstract class EntityExtractor<T extends Event>
         eventClass = (Class<? extends Event>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
 
-    EntityEventKey createEventKey(Class<?> eventClass)
+    EventKey getOrCreateEventKey(Class<?> eventClass)
     {
-        EntityEventKey eventKey = this.eventKeyByEventClass.get(eventClass);
+        EventKey eventKey = eventKeyByEventClass.get(eventClass);
 
         if (eventKey == null)
-            this.eventKeyByEventClass.put(eventClass, eventKey = new EntityEventKey().set(eventClass, this));
+            eventKeyByEventClass.put(eventClass, eventKey = new EventKey().set(eventClass, this));
 
         return eventKey;
     }
@@ -187,17 +188,17 @@ public abstract class EntityExtractor<T extends Event>
         }
     }
 
-    public static final class Damager extends EntityExtractor<EntityDamageByEntityEvent>
-    {
-        @Override
-        public Entity getEntity(EntityDamageByEntityEvent event)
-        {
-            return event.getDamager();
-        }
-    }
-
     public static final class EntityDamageByEntity
     {
+        public static final class Damager extends EntityExtractor<EntityDamageByEntityEvent>
+        {
+            @Override
+            public Entity getEntity(EntityDamageByEntityEvent event)
+            {
+                return event.getDamager();
+            }
+        }
+
         public static final class Shooter extends EntityExtractor<EntityDamageByEntityEvent>
         {
             @Override

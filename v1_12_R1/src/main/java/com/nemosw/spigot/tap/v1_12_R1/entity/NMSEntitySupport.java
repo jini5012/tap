@@ -92,4 +92,9 @@ public final class NMSEntitySupport implements TapEntitySupport
         throw new NullPointerException();
     }
 
+    @Override
+    public Object getHandle(org.bukkit.entity.Entity entity)
+    {
+        return ((CraftEntity) entity).getHandle();
+    }
 }

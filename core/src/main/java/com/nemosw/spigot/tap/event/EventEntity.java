@@ -3,69 +3,50 @@ package com.nemosw.spigot.tap.event;
 import com.nemosw.mox.collections.LinkedNodeList;
 import org.bukkit.event.Event;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 final class EventEntity
 {
 
-    private final LinkedNodeList<RegisteredEntityListener> registeredListeners = new LinkedNodeList<>();
+    private final Map<EventKey, Handler> handlers = new HashMap<>();
 
-    private final HashMap<EntityEventKey, EventEntityHandler> handlers = new HashMap<>();
-
-    RegisteredEntityListener registerEvents(EntityListener listener, EntityEventExecutor[] executors)
+    void register(EntityListener listener, List<EntityEventExecutor> executors)
     {
-        int length = executors.length;
-        RegisteredEntityExecutor[] registereds = new RegisteredEntityExecutor[length];
-        HashMap<EntityEventKey, EventEntityHandler> handlers = this.handlers;
-
-        for (int i = 0; i < length; i++)
+        for (EntityEventExecutor executor : executors)
         {
-            EntityEventExecutor executor = executors[i];
-            RegisteredEntityExecutor registered = new RegisteredEntityExecutor(listener, executor);
-            EntityEventKey key = executor.eventKey;
-            EventEntityHandler handler = handlers.get(key);
+            RegisteredEntityListener registration = new RegisteredEntityListener(listener, executor);
+            EventKey key = executor.eventKey;
+            Handler handler = handlers.get(key);
 
             if (handler == null)
-                handlers.put(key, handler = new EventEntityHandler());
+                handlers.put(key, handler = new Handler());
 
-            handler.registerExecutor(registered);
-
-            registereds[i] = registered;
+            handler.register(registration);
         }
-
-        RegisteredEntityListener registeredListener = new RegisteredEntityListener(registereds);
-        registeredListener.node = this.registeredListeners.addNode(registeredListener);
-
-        return registeredListener;
     }
 
-    void handleEvent(EntityEventKey key, Event event)
+    void unregister(EntityListener listener)
     {
-        EventEntityHandler handler = this.handlers.get(key);
+        for (Handler handler : handlers.values())
+        {
+            handler.unregister(listener);
+        }
+    }
+
+    void handleEvent(EventKey key, Event event)
+    {
+        Handler handler = this.handlers.get(key);
 
         if (handler != null)
         {
-            for (RegisteredEntityExecutor executor : handler.getExecutors())
+            for (RegisteredEntityListener registration : handler.getRegisteredListeners())
             {
-                executor.execute(event);
+                if (registration.isValid())
+                    registration.execute(event);
             }
         }
-    }
-
-    void clear()
-    {
-        LinkedNodeList<RegisteredEntityListener> registeredListeners = this.registeredListeners;
-
-        while (!registeredListeners.isEmpty())
-            registeredListeners.peek().unregister();
-
-        registeredListeners.clear();
-
-        HashMap<EntityEventKey, EventEntityHandler> handlers = this.handlers;
-
-        for (EventEntityHandler handler : handlers.values())
-            handler.clear();
-
-        handlers.clear();
     }
 }

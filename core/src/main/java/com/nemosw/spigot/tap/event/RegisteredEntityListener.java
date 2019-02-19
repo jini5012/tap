@@ -1,36 +1,47 @@
 package com.nemosw.spigot.tap.event;
 
 import com.nemosw.mox.collections.Node;
+import org.bukkit.event.Cancellable;
+import org.bukkit.event.Event;
 
-public final class RegisteredEntityListener
+final class RegisteredEntityListener
 {
 
-    RegisteredEntityExecutor[] executors;
+    final EntityListener listener;
 
-    Node<RegisteredEntityListener> node;
+    final EntityEventExecutor executor;
 
-    RegisteredEntityListener(RegisteredEntityExecutor[] executors)
+    private boolean valid;
+
+    RegisteredEntityListener(EntityListener listener, EntityEventExecutor executor)
     {
-        this.executors = executors;
+        this.listener = listener;
+        this.executor = executor;
+        this.valid = true;
     }
 
-    public final void unregister()
+    void execute(Event event)
     {
-        if (this.node != null)
+        if (executor.ignoreCancelled && event instanceof Cancellable && ((Cancellable) event).isCancelled())
+            return;
+
+        try
         {
-            this.node.unlink();
-            this.node = null;
-
-            RegisteredEntityExecutor[] executors = this.executors;
-            this.executors = null;
-
-            for (int i = 0, length = executors.length; i < length; i++)
-            {
-                RegisteredEntityExecutor executor = executors[i];
-                executors[i] = null;
-                executor.remove();
-            }
+            this.executor.execute(this.listener, event);
+        }
+        catch (Throwable t)
+        {
+            t.printStackTrace();
         }
     }
 
+    void invalidate()
+    {
+        this.valid = false;
+    }
+
+    boolean isValid()
+    {
+        return valid;
+    }
 }

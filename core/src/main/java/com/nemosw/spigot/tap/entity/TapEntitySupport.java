@@ -9,4 +9,6 @@ public interface TapEntitySupport
 
     <T extends TapEntity> T createEntity(Class<? extends Entity> entityClass);
 
+    Object getHandle(Entity entity);
+
 }

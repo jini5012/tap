@@ -8,12 +8,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public final class EntityEventListener implements Listener
+public final class InvalidEntityListener implements Listener
 {
 
     private final EntityEventManager manager;
 
-    EntityEventListener(EntityEventManager manager)
+    InvalidEntityListener(EntityEventManager manager)
     {
         this.manager = manager;
     }

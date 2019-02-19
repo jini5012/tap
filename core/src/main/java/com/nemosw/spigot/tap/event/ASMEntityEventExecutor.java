@@ -1,5 +1,6 @@
 package com.nemosw.spigot.tap.event;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
 import com.nemosw.tools.asm.ClassDefiner;
 import org.bukkit.event.Event;
@@ -31,6 +32,8 @@ public final class ASMEntityEventExecutor
 
     private static final String PRIORITY_SIGN = 'L' + PRIORITY_NAME + ';';
 
+    private static final Map<Class<? extends EntityListener>, List<EntityEventExecutor>> HANDLERS_CACHE = new HashMap<>();
+
     private static final Map<Method, EntityEventExecutor> CACHE = new HashMap<>();
 
     private static final Map<Class<?>, EntityExtractor<?>> EXTRACTORS_BY_CLASS = new HashMap<>();
@@ -56,7 +59,6 @@ public final class ASMEntityEventExecutor
         try
         {
             EXECUTE_DESC = Type.getMethodDescriptor(EntityEventExecutor.class.getMethod("execute", EntityListener.class, Event.class));
-
         }
         catch (Exception e)
         {
@@ -87,24 +89,33 @@ public final class ASMEntityEventExecutor
     }
 
     @SuppressWarnings("unchecked")
-    static EntityEventExecutor[] createExecutors(Class<? extends EntityListener> clazz)
+    static List<EntityEventExecutor> getOrCreateHandlers(Class<? extends EntityListener> clazz)
     {
+        List<EntityEventExecutor> handlers = HANDLERS_CACHE.get(clazz);
+
+        if (handlers != null)
+            return handlers;
+
         int mod = clazz.getModifiers();
 
         if (!Modifier.isPublic(mod))
-            throw new IllegalArgumentException("EntityEventListener's modifier must be public");
+            throw new IllegalArgumentException("Listener modifier must be public");
 
         Method[] methods = clazz.getMethods();
 
         class ListenerMaterial
         {
-            final Method method;
-            final Class<?> handlerClass;
-            final EntityExtractor<? extends Event> entityExtractor;
-            final EntityEventPriority priority;
-            final boolean ignoreCancelled;
+            private final Method method;
 
-            ListenerMaterial(Method method, Class<?> handlerClass, EntityExtractor<? extends Event> entityExtractor, EntityEventPriority priority, boolean ignoreCancelled)
+            private final Class<?> handlerClass;
+
+            private final EntityExtractor<? extends Event> entityExtractor;
+
+            private final EntityEventPriority priority;
+
+            private final boolean ignoreCancelled;
+
+            private ListenerMaterial(Method method, Class<?> handlerClass, EntityExtractor<? extends Event> entityExtractor, EntityEventPriority priority, boolean ignoreCancelled)
             {
                 this.method = method;
                 this.handlerClass = handlerClass;
@@ -114,7 +125,7 @@ public final class ASMEntityEventExecutor
             }
         }
 
-        ArrayList<ListenerMaterial> materials = new ArrayList<>(methods.length);
+        List<ListenerMaterial> materials = new ArrayList<>(methods.length);
         Set<? extends Class<?>> supers = TypeToken.of(clazz).getTypes().rawTypes();
 
         for (Method method : methods)
@@ -152,30 +163,30 @@ public final class ASMEntityEventExecutor
                             throw new IllegalArgumentException('\'' + eventClass.getName() + "' has no HandlerList: " + method);
                         }
 
-                        Class<?> extractorClass = entityEventHandler.extractor();
+                        Class<?> targetClass = entityEventHandler.target();
 
-                        if (extractorClass == EntityExtractor.class)
+                        if (targetClass == EntityExtractor.class)
                         {
-                            extractorClass = getDefaultExtractorClass(eventClass);
+                            targetClass = getDefaultExtractorClass(eventClass);
 
-                            if (extractorClass == null)
+                            if (targetClass == null)
                                 throw new NullPointerException("Not found default EntityExtractor for " + eventClass);
                         }
 
-                        EntityExtractor<? extends Event> entityExtractor = EXTRACTORS_BY_CLASS.get(extractorClass);
+                        EntityExtractor<? extends Event> entityExtractor = EXTRACTORS_BY_CLASS.get(targetClass);
 
                         if (entityExtractor == null)
                         {
                             try
                             {
-                                entityExtractor = (EntityExtractor<? extends Event>) extractorClass.newInstance();
+                                entityExtractor = (EntityExtractor<? extends Event>) targetClass.newInstance();
                             }
                             catch (Exception e)
                             {
                                 throw new AssertionError(e);
                             }
 
-                            EXTRACTORS_BY_CLASS.put(extractorClass, entityExtractor);
+                            EXTRACTORS_BY_CLASS.put(targetClass, entityExtractor);
                         }
 
                         materials.add(new ListenerMaterial(method, handlerClass, entityExtractor, entityEventHandler.priority(), entityEventHandler.ignoreCancelled()));
@@ -196,7 +207,10 @@ public final class ASMEntityEventExecutor
             executors[i] = createListener(material.method, material.handlerClass, material.entityExtractor, material.priority, material.ignoreCancelled);
         }
 
-        return executors;
+        handlers = ImmutableList.copyOf(executors);
+        HANDLERS_CACHE.put(clazz, handlers);
+
+        return handlers;
     }
 
     private static EntityEventExecutor createListener(Method method, Class<?> handlerClass, EntityExtractor<?> entityExtractor, EntityEventPriority priority, boolean ignoreCancelled)
@@ -216,7 +230,7 @@ public final class ASMEntityEventExecutor
             ClassWriter cw = new ClassWriter(0);
             MethodVisitor mv;
 
-            cw.visit(V1_6, ACC_PUBLIC | ACC_SUPER, desc, null, SUPER_NAME, null);
+            cw.visit(V1_7, ACC_PUBLIC | ACC_SUPER, desc, null, SUPER_NAME, null);
             cw.visitSource(".dynamic", null);
 
             {

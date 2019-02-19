@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 public @interface EntityEventHandler
 {
 
-    Class<?> extractor() default EntityExtractor.class;
+    Class<?> target() default EntityExtractor.class;
 
     EntityEventPriority priority() default EntityEventPriority.NORMAL;
 
