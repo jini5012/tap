@@ -30,6 +30,10 @@ public interface TapEntity
 
     float getPitch();
 
+    boolean isInvisible();
+
+    boolean isGlowing();
+
     boolean isOnGround();
 
     boolean isDead();

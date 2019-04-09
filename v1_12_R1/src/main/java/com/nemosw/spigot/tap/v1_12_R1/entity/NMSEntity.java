@@ -92,6 +92,18 @@ public class NMSEntity implements TapEntity
 	}
 
 	@Override
+	public boolean isInvisible()
+	{
+		return entity.isInvisible();
+	}
+
+	@Override
+	public boolean isGlowing()
+	{
+		return entity.glowing;
+	}
+
+	@Override
 	public boolean isOnGround()
 	{
 		return this.entity.onGround;
