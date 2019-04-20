@@ -5,15 +5,11 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public interface RayTracer
 {
-
-    World getWorld();
-
-    RayTracer setWorld(World world);
-
     Vector getFrom(Vector v);
 
     Vector getFrom();
@@ -30,22 +26,24 @@ public interface RayTracer
 
     RayTracer setTo(Vector v);
 
-    RayTraceResult setToRayTraceBlock(int option);
+    RayTraceResult setToRayTraceBlock(World world, int option);
 
     double getLength();
 
     BoundingBox toBox();
 
-    <T extends Entity> List<T> getEntitiesInBox(Entity exclusion, Predicate<Entity> selector);
+    <T extends Entity> List<T> getEntitiesInBox(World world, Entity exclusion, Predicate<Entity> selector);
 
-    RayTraceResult rayTraceBlock(int option);
+    RayTraceResult rayTraceBlock(World world, int option);
 
     RayTraceResult calculate(BoundingBox box);
 
     RayTraceResult calculate(Entity entity, double expand);
 
-    RayTraceResult rayTraceEntity(Entity exclusion, double expand, Predicate<Entity> selector);
+    RayTraceResult rayTraceEntity(World world, Entity exclusion, double expand, Predicate<Entity> selector);
 
-    List<? extends RayTraceResult> rayTraceEntities(Entity exclusion, double expand, Predicate<Entity> selector);
+    List<? extends RayTraceResult> rayTraceEntities(World world, Entity exclusion, double expand, Predicate<Entity> selector);
+
+    <T> RayTraceResult rayTraceCustom(Iterable<? extends T> iterable, T exclusion, Function<T, BoundingBox> func);
 
 }

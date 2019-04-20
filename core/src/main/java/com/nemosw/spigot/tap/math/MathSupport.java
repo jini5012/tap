@@ -19,6 +19,6 @@ public interface MathSupport
 
     RayTraceResult rayTrace(World world, Entity entity, Vector from, Vector to, int options, double expand, Predicate<Entity> selector);
 
-    RayTracer newRayTraceCalculator(World world, Vector from, Vector to);
+    RayTracer newRayTraceCalculator(Vector from, Vector to);
 
 }

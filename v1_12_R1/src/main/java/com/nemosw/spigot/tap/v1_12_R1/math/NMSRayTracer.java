@@ -3,13 +3,18 @@ package com.nemosw.spigot.tap.v1_12_R1.math;
 import com.google.common.collect.Lists;
 import com.nemosw.mox.math.Vector;
 import com.nemosw.spigot.tap.math.BoundingBox;
+import com.nemosw.spigot.tap.math.RayTraceResult;
 import com.nemosw.spigot.tap.math.RayTracer;
-import net.minecraft.server.v1_12_R1.*;
+import net.minecraft.server.v1_12_R1.AxisAlignedBB;
+import net.minecraft.server.v1_12_R1.Entity;
+import net.minecraft.server.v1_12_R1.MovingObjectPosition;
+import net.minecraft.server.v1_12_R1.Vec3D;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import static com.nemosw.spigot.tap.v1_12_R1.math.NMSMathSupport.*;
@@ -19,32 +24,12 @@ import static com.nemosw.spigot.tap.v1_12_R1.math.NMSMathSupport.*;
 public final class NMSRayTracer implements RayTracer
 {
 
-    private World world;
-
     private Vec3D from, to;
 
-    NMSRayTracer(World world, Vec3D from, Vec3D to)
+    NMSRayTracer(Vec3D from, Vec3D to)
     {
-        this.world = world;
         this.from = from;
         this.to = to;
-    }
-
-    @Override
-    public org.bukkit.World getWorld()
-    {
-        return world.getWorld();
-    }
-
-    @Override
-    public NMSRayTracer setWorld(org.bukkit.World world)
-    {
-        if (world == null)
-            throw new NullPointerException("World cannot be null");
-
-        this.world = ((CraftWorld) world).getHandle();
-
-        return this;
     }
 
     @Override
@@ -104,9 +89,9 @@ public final class NMSRayTracer implements RayTracer
     }
 
     @Override
-    public NMSRayTraceResult setToRayTraceBlock(int option)
+    public NMSRayTraceResult setToRayTraceBlock(org.bukkit.World world, int option)
     {
-        NMSRayTraceResult result = rayTraceBlock(option);
+        NMSRayTraceResult result = rayTraceBlock(world, option);
 
         if (result != null)
         {
@@ -136,18 +121,18 @@ public final class NMSRayTracer implements RayTracer
     }
 
     @Override
-    public <T extends org.bukkit.entity.Entity> List<T> getEntitiesInBox(org.bukkit.entity.Entity exclusion, Predicate<org.bukkit.entity.Entity> selector)
+    public <T extends org.bukkit.entity.Entity> List<T> getEntitiesInBox(org.bukkit.World world, org.bukkit.entity.Entity exclusion, Predicate<org.bukkit.entity.Entity> selector)
     {
         Vec3D from = this.from, to = this.to;
-        List<Entity> entities = NMSMathSupport.getEntitiesInBox(world, unwrapEntity(exclusion), new AxisAlignedBB(from.x, from.y, from.z, to.x, to.y, to.z), toNMSSelector(selector));
+        List<Entity> entities = NMSMathSupport.getEntitiesInBox(((CraftWorld) world).getHandle(), unwrapEntity(exclusion), new AxisAlignedBB(from.x, from.y, from.z, to.x, to.y, to.z), toNMSSelector(selector));
 
         return (List<T>) Lists.transform(entities, entity -> entity.getBukkitEntity());
     }
 
     @Override
-    public NMSRayTraceResult rayTraceBlock(int option)
+    public NMSRayTraceResult rayTraceBlock(org.bukkit.World world, int option)
     {
-        return wrapResult(NMSMathSupport.rayTraceBlock(world, from, to, option));
+        return wrapResult(NMSMathSupport.rayTraceBlock(((CraftWorld) world).getHandle(), from, to, option));
     }
 
     @Override
@@ -162,23 +147,23 @@ public final class NMSRayTracer implements RayTracer
         return wrapResult(((CraftEntity) entity).getHandle().getBoundingBox().grow(expand, expand, expand).b(from, to));
     }
 
-    private List<Entity> getNMSEntities(org.bukkit.entity.Entity exclusion, double expand, com.google.common.base.Predicate<Entity> selector)
+    private List<Entity> getNMSEntities(org.bukkit.World world, org.bukkit.entity.Entity exclusion, double expand, com.google.common.base.Predicate<Entity> selector)
     {
-        return NMSMathSupport.getEntitiesInBox(world, unwrapEntity(exclusion), new AxisAlignedBB(from.x, from.y, from.z, to.x, to.y, to.z).grow(expand, expand, expand), selector);
+        return NMSMathSupport.getEntitiesInBox(((CraftWorld) world).getHandle(), unwrapEntity(exclusion), new AxisAlignedBB(from.x, from.y, from.z, to.x, to.y, to.z).grow(expand, expand, expand), selector);
     }
 
     @Override
-    public NMSRayTraceResult rayTraceEntity(org.bukkit.entity.Entity exclusion, double expand, Predicate<org.bukkit.entity.Entity> selector)
+    public NMSRayTraceResult rayTraceEntity(org.bukkit.World world, org.bukkit.entity.Entity exclusion, double expand, Predicate<org.bukkit.entity.Entity> selector)
     {
-        List<Entity> entities = getNMSEntities(exclusion, expand, toNMSSelector(selector));
+        List<Entity> entities = getNMSEntities(world, exclusion, expand, toNMSSelector(selector));
 
         return wrapResult(calculateRayTrace(entities, from, to, expand));
     }
 
     @Override
-    public List<NMSRayTraceResult> rayTraceEntities(org.bukkit.entity.Entity exclusion, double expand, Predicate<org.bukkit.entity.Entity> selector)
+    public List<NMSRayTraceResult> rayTraceEntities(org.bukkit.World world, org.bukkit.entity.Entity exclusion, double expand, Predicate<org.bukkit.entity.Entity> selector)
     {
-        List<Entity> entities = getNMSEntities(exclusion, expand, toNMSSelector(selector));
+        List<Entity> entities = getNMSEntities(world, exclusion, expand, toNMSSelector(selector));
 
         ArrayList<NMSRayTraceResult> results = new ArrayList<>(Math.min(10, entities.size()));
         Vec3D from = this.from, to = this.to;
@@ -203,4 +188,35 @@ public final class NMSRayTracer implements RayTracer
 
         return results;
     }
+
+    @Override
+    public <T> RayTraceResult rayTraceCustom(Iterable<? extends T> iterable, T exclusion, Function<T, BoundingBox> func)
+    {
+        T found = null;
+        MovingObjectPosition foundResult = null;
+        double ds = 0.0D;
+
+        for (T object : iterable)
+        {
+            if (object == exclusion)
+                continue;
+
+            MovingObjectPosition result = ((NMSBoundingBox) func.apply(object)).calculateRayTrace(from, to);
+
+            if (result != null)
+            {
+                double cds = from.distanceSquared(result.pos);
+
+                if (ds == 0.0D || cds < ds)
+                {
+                    found = object;
+                    foundResult = result;
+                    ds = cds;
+                }
+            }
+        }
+
+        return found == null ? null : new NMSRayTraceResultCustom(foundResult, found);
+    }
+
 }

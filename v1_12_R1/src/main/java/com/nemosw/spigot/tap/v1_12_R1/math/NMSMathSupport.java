@@ -166,9 +166,9 @@ public final class NMSMathSupport implements MathSupport
     }
 
     @Override
-    public NMSRayTracer newRayTraceCalculator(org.bukkit.World world, Vector from, Vector to)
+    public NMSRayTracer newRayTraceCalculator(Vector from, Vector to)
     {
-        return new NMSRayTracer(((CraftWorld) world).getHandle(), toVec3D(from), toVec3D(to));
+        return new NMSRayTracer(toVec3D(from), toVec3D(to));
     }
 
 }

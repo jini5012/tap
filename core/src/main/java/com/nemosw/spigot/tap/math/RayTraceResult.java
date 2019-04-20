@@ -19,4 +19,6 @@ public interface RayTraceResult
 
     <T extends Entity> T getEntity();
 
+    <T> T getCustom();
+
 }
