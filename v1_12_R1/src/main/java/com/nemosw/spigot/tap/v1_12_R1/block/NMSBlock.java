@@ -8,40 +8,40 @@ import net.minecraft.server.v1_12_R1.Block;
 public final class NMSBlock implements TapBlock
 {
 
-	private final Block block;
+    private final Block block;
 
-	NMSBlock(Block block)
-	{
-		this.block = block;
-	}
+    NMSBlock(Block block)
+    {
+        this.block = block;
+    }
 
-	public Block getHandle()
+    public Block getHandle()
     {
         return block;
     }
 
-	@Override
-	public String getTextureId()
-	{
-		return Block.REGISTRY.b(block).toString();
-	}
+    @Override
+    public String getTextureId()
+    {
+        return Block.REGISTRY.b(block).toString();
+    }
 
-	@Override
-	public int getId()
-	{
-		return Block.getId(block);
-	}
+    @Override
+    public int getId()
+    {
+        return Block.getId(block);
+    }
 
-	@Override
-	public TapBlockData getBlockData()
-	{
+    @Override
+    public TapBlockData getBlockData()
+    {
         return NMSBlockSupport.getInstance().wrapBlockData(block.getBlockData());
-	}
+    }
 
-	@Override
-	public NMSBlockData getBlockData(int data)
-	{
+    @Override
+    public NMSBlockData getBlockData(int data)
+    {
         return NMSBlockSupport.getInstance().wrapBlockData(block.fromLegacyData(data));
-	}
+    }
 
 }

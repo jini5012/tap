@@ -8,10 +8,10 @@ import net.minecraft.server.v1_12_R1.PacketPlayOutCustomPayload;
 public final class NMSCustomPacket implements CustomPacket
 {
 
-	@Override
-	public NMSPacket payload(String channel, byte[] message)
-	{
-		return (NMSPacketLazy) () -> new PacketPlayOutCustomPayload(channel, new PacketDataSerializer(Unpooled.wrappedBuffer(message)));
-	}
+    @Override
+    public NMSPacket payload(String channel, byte[] message)
+    {
+        return (NMSPacketLazy) () -> new PacketPlayOutCustomPayload(channel, new PacketDataSerializer(Unpooled.wrappedBuffer(message)));
+    }
 
 }

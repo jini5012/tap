@@ -8,10 +8,10 @@ import net.minecraft.server.v1_12_R1.PacketPlayOutSetCooldown;
 public class NMSItemPacket implements ItemPacket
 {
 
-	@Override
-	public NMSPacket cooldown(TapItem item, int cooldownTicks)
-	{
-		return new NMSPacketFixed(new PacketPlayOutSetCooldown(((NMSItem) item).getHandle(), cooldownTicks));
-	}
+    @Override
+    public NMSPacket cooldown(TapItem item, int cooldownTicks)
+    {
+        return new NMSPacketFixed(new PacketPlayOutSetCooldown(((NMSItem) item).getHandle(), cooldownTicks));
+    }
 
 }

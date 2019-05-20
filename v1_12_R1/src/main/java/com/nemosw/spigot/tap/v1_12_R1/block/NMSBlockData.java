@@ -30,6 +30,12 @@ public final class NMSBlockData implements TapBlockData
         return blockData.getBlock().toLegacyData(blockData);
     }
 
+    @Override
+    public int getDropData()
+    {
+        return blockData.getBlock().getDropData(blockData);
+    }
+
     public IBlockData getBlockData()
     {
         return blockData;

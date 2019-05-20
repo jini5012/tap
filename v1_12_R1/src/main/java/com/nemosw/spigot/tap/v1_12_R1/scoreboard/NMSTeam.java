@@ -12,291 +12,291 @@ import java.util.Set;
 public final class NMSTeam implements TapTeam
 {
 
-	final NMSScoreboard scoreboard;
+    final NMSScoreboard scoreboard;
 
-	final String name;
+    final String name;
 
-	String displayName;
+    String displayName;
 
-	String prefix = "";
+    String prefix = "";
 
-	String suffix = "";
+    String suffix = "";
 
-	boolean allowFriendlyFire;
+    boolean allowFriendlyFire;
 
-	boolean canSeeFriendlyInvisibles;
+    boolean canSeeFriendlyInvisibles;
 
-	NameTagVisibility nameTagVisibility = NameTagVisibility.ALWAYS;
+    NameTagVisibility nameTagVisibility = NameTagVisibility.ALWAYS;
 
-	CollisionRule collisionRule = CollisionRule.ALWAYS;
+    CollisionRule collisionRule = CollisionRule.ALWAYS;
 
-	ChatColor color = ChatColor.WHITE;
+    ChatColor color = ChatColor.WHITE;
 
-	final Set<String> entries = new HashSet<>();
+    final Set<String> entries = new HashSet<>();
 
-	private boolean valid;
+    private boolean valid;
 
-	NMSTeam(NMSScoreboard scoreboard, String name)
-	{
-		this.scoreboard = scoreboard;
-		this.name = name;
-		this.displayName = name;
-		this.valid = true;
-	}
+    NMSTeam(NMSScoreboard scoreboard, String name)
+    {
+        this.scoreboard = scoreboard;
+        this.name = name;
+        this.displayName = name;
+        this.valid = true;
+    }
 
-	@Override
-	public NMSScoreboard getScoreboard()
-	{
-		return this.scoreboard;
-	}
+    @Override
+    public NMSScoreboard getScoreboard()
+    {
+        return this.scoreboard;
+    }
 
-	@Override
-	public String getName()
-	{
-		return this.name;
-	}
+    @Override
+    public String getName()
+    {
+        return this.name;
+    }
 
-	@Override
-	public String getDisplayName()
-	{
-		return this.displayName;
-	}
+    @Override
+    public String getDisplayName()
+    {
+        return this.displayName;
+    }
 
-	@Override
-	public void setDisplayName(String displayName)
-	{
-		checkState();
+    @Override
+    public void setDisplayName(String displayName)
+    {
+        checkState();
 
-		if (displayName == null)
-			throw new NullPointerException("Display name cannot be null");
-		if (displayName.length() > 32)
-			throw new NullPointerException("Display name '" + displayName + "' is longer than the limit of 32 characters");
+        if (displayName == null)
+            throw new NullPointerException("Display name cannot be null");
+        if (displayName.length() > 32)
+            throw new NullPointerException("Display name '" + displayName + "' is longer than the limit of 32 characters");
 
-		this.displayName = displayName;
+        this.displayName = displayName;
 
-		update();
-	}
+        update();
+    }
 
-	@Override
-	public String getPrefix()
-	{
-		return this.prefix;
-	}
+    @Override
+    public String getPrefix()
+    {
+        return this.prefix;
+    }
 
-	@Override
-	public void setPrefix(String prefix)
-	{
-		checkState();
+    @Override
+    public void setPrefix(String prefix)
+    {
+        checkState();
 
-		if (prefix == null)
-			throw new NullPointerException("Prefix cannot be null");
-		if (prefix.length() > 32)
-			throw new IllegalArgumentException("Prefix '" + prefix + "' is longer than the limit of 32 characters");
+        if (prefix == null)
+            throw new NullPointerException("Prefix cannot be null");
+        if (prefix.length() > 32)
+            throw new IllegalArgumentException("Prefix '" + prefix + "' is longer than the limit of 32 characters");
 
-		this.prefix = prefix;
+        this.prefix = prefix;
 
-		update();
-	}
+        update();
+    }
 
-	@Override
-	public String getSuffix()
-	{
-		return this.suffix;
-	}
+    @Override
+    public String getSuffix()
+    {
+        return this.suffix;
+    }
 
-	@Override
-	public void setSuffix(String suffix)
-	{
-		checkState();
+    @Override
+    public void setSuffix(String suffix)
+    {
+        checkState();
 
-		if (suffix == null)
-			throw new NullPointerException("Suffix cannot be null");
-		if (suffix.length() > 32)
-			throw new IllegalArgumentException("Suffix '" + suffix + "' is longer than the limit of 32 characters");
+        if (suffix == null)
+            throw new NullPointerException("Suffix cannot be null");
+        if (suffix.length() > 32)
+            throw new IllegalArgumentException("Suffix '" + suffix + "' is longer than the limit of 32 characters");
 
-		this.suffix = suffix;
+        this.suffix = suffix;
 
-		update();
-	}
+        update();
+    }
 
-	@Override
-	public boolean allowFriendlyFire()
-	{
-		return this.allowFriendlyFire;
-	}
+    @Override
+    public boolean allowFriendlyFire()
+    {
+        return this.allowFriendlyFire;
+    }
 
-	@Override
-	public void setAllowFriendlyFire(boolean allowFriendlyFire)
-	{
-		checkState();
+    @Override
+    public void setAllowFriendlyFire(boolean allowFriendlyFire)
+    {
+        checkState();
 
-		if (this.allowFriendlyFire == allowFriendlyFire)
-			return;
+        if (this.allowFriendlyFire == allowFriendlyFire)
+            return;
 
-		this.allowFriendlyFire = allowFriendlyFire;
+        this.allowFriendlyFire = allowFriendlyFire;
 
-		update();
-	}
+        update();
+    }
 
-	@Override
-	public boolean canSeeFriendlyInvisibles()
-	{
-		return this.canSeeFriendlyInvisibles;
-	}
+    @Override
+    public boolean canSeeFriendlyInvisibles()
+    {
+        return this.canSeeFriendlyInvisibles;
+    }
 
-	@Override
-	public void setCanSeeFriendlyInvisibles(boolean canSeeFriendlyInvisibles)
-	{
-		checkState();
+    @Override
+    public void setCanSeeFriendlyInvisibles(boolean canSeeFriendlyInvisibles)
+    {
+        checkState();
 
-		if (this.canSeeFriendlyInvisibles == canSeeFriendlyInvisibles)
-			return;
+        if (this.canSeeFriendlyInvisibles == canSeeFriendlyInvisibles)
+            return;
 
-		this.canSeeFriendlyInvisibles = canSeeFriendlyInvisibles;
+        this.canSeeFriendlyInvisibles = canSeeFriendlyInvisibles;
 
-		update();
-	}
+        update();
+    }
 
-	@Override
-	public NameTagVisibility getNameTagVisibility()
-	{
-		return this.nameTagVisibility;
-	}
+    @Override
+    public NameTagVisibility getNameTagVisibility()
+    {
+        return this.nameTagVisibility;
+    }
 
-	@Override
-	public void setNameTagVisibility(NameTagVisibility visibility)
-	{
-		checkState();
+    @Override
+    public void setNameTagVisibility(NameTagVisibility visibility)
+    {
+        checkState();
 
-		if (this.nameTagVisibility == visibility)
-			return;
+        if (this.nameTagVisibility == visibility)
+            return;
 
-		this.nameTagVisibility = visibility;
+        this.nameTagVisibility = visibility;
 
-		update();
-	}
+        update();
+    }
 
-	@Override
-	public CollisionRule getCollisionRule()
-	{
-		return this.collisionRule;
-	}
+    @Override
+    public CollisionRule getCollisionRule()
+    {
+        return this.collisionRule;
+    }
 
-	@Override
-	public void setCollisionRule(CollisionRule collisionRule)
-	{
-		if (collisionRule == null)
-			throw new NullPointerException("rule cannot be null");
+    @Override
+    public void setCollisionRule(CollisionRule collisionRule)
+    {
+        if (collisionRule == null)
+            throw new NullPointerException("rule cannot be null");
 
-		if (this.collisionRule == collisionRule)
-			return;
+        if (this.collisionRule == collisionRule)
+            return;
 
-		this.collisionRule = collisionRule;
+        this.collisionRule = collisionRule;
 
-		update();
-	}
+        update();
+    }
 
-	@Override
-	public void addEntry(String name)
-	{
-		checkState();
+    @Override
+    public void addEntry(String name)
+    {
+        checkState();
 
-		if (name == null)
-			throw new NullPointerException("Name cannot be null");
+        if (name == null)
+            throw new NullPointerException("Name cannot be null");
 
-		if (this.entries.add(name))
-			this.scoreboard.setEntryTeam(name, this);
-	}
+        if (this.entries.add(name))
+            this.scoreboard.setEntryTeam(name, this);
+    }
 
-	@Override
-	public boolean removeEntry(String name)
-	{
-		checkState();
+    @Override
+    public boolean removeEntry(String name)
+    {
+        checkState();
 
-		if (this.entries.remove(name))
-		{
-			this.scoreboard.removeEntryTeam(name, this);
+        if (this.entries.remove(name))
+        {
+            this.scoreboard.removeEntryTeam(name, this);
 
-			return true;
-		}
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	void removeEntryWithoutUpdate(String name)
-	{
-		this.entries.remove(name);
-	}
+    void removeEntryWithoutUpdate(String name)
+    {
+        this.entries.remove(name);
+    }
 
-	@Override
-	public boolean hasEntry(String name)
-	{
-		return this.entries.contains(name);
-	}
+    @Override
+    public boolean hasEntry(String name)
+    {
+        return this.entries.contains(name);
+    }
 
-	private Set<String> unmodifiableEntries;
+    private Set<String> unmodifiableEntries;
 
-	@Override
-	public Set<String> getEntries()
-	{
-		if (this.unmodifiableEntries == null)
-			this.unmodifiableEntries = Collections.unmodifiableSet(this.entries);
+    @Override
+    public Set<String> getEntries()
+    {
+        if (this.unmodifiableEntries == null)
+            this.unmodifiableEntries = Collections.unmodifiableSet(this.entries);
 
-		return this.unmodifiableEntries;
-	}
+        return this.unmodifiableEntries;
+    }
 
-	@Override
-	public int getSize()
-	{
-		return this.entries.size();
-	}
+    @Override
+    public int getSize()
+    {
+        return this.entries.size();
+    }
 
-	@Override
-	public ChatColor getColor()
-	{
-		return this.color;
-	}
+    @Override
+    public ChatColor getColor()
+    {
+        return this.color;
+    }
 
-	@Override
-	public void setColor(ChatColor chatColor)
-	{
-		checkState();
+    @Override
+    public void setColor(ChatColor chatColor)
+    {
+        checkState();
 
-		if (chatColor == null)
-			throw new NullPointerException("Chat color cannot be null");
+        if (chatColor == null)
+            throw new NullPointerException("Chat color cannot be null");
 
-		if (this.color == chatColor)
-			return;
+        if (this.color == chatColor)
+            return;
 
-		this.color = chatColor;
+        this.color = chatColor;
 
-		update();
-	}
+        update();
+    }
 
-	@Override
-	public void unregister()
-	{
-		checkState();
+    @Override
+    public void unregister()
+    {
+        checkState();
 
-		this.scoreboard.unregisterTeam(this);
-		remove();
-	}
+        this.scoreboard.unregisterTeam(this);
+        remove();
+    }
 
-	void remove()
-	{
-		this.valid = false;
+    void remove()
+    {
+        this.valid = false;
 
-		this.entries.clear();
-	}
+        this.entries.clear();
+    }
 
-	private void update()
-	{
-		this.scoreboard.sendAll(FakeTeam.getInstance(this).createUpdatePacket());
-	}
+    private void update()
+    {
+        this.scoreboard.sendAll(FakeTeam.getInstance(this).createUpdatePacket());
+    }
 
-	private void checkState()
-	{
-		if (!this.valid)
-			throw new IllegalStateException("Invalid TapTeam '" + this.name + "' @" + Integer.toHexString(System.identityHashCode(this)));
-	}
+    private void checkState()
+    {
+        if (!this.valid)
+            throw new IllegalStateException("Invalid TapTeam '" + this.name + "' @" + Integer.toHexString(System.identityHashCode(this)));
+    }
 }

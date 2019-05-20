@@ -182,7 +182,8 @@ public final class ASMEntityEventExecutor
                     }
                 }
                 catch (NoSuchMethodException | SecurityException ignored)
-                {}
+                {
+                }
             }
         }
 

@@ -7,4 +7,6 @@ public interface TapBlockData
 
     int toLegacyData();
 
+    int getDropData();
+
 }

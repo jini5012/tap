@@ -10,7 +10,7 @@ public final class TapLoader
         MCConfigAdapters.init();
     }
 
-    public static void load(Plugin  plugin)
+    public static void load(Plugin plugin)
     {
         try
         {

@@ -30,7 +30,8 @@ public final class LibraryLoader
                 return Class.forName(className, true, type.getClassLoader()).asSubclass(type);
             }
             catch (ClassNotFoundException ignored)
-            {}
+            {
+            }
         }
 
         throw new ClassNotFoundException("Not found nms library class: " + candidates.toString());

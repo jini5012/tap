@@ -13,21 +13,21 @@ import java.lang.ref.WeakReference;
 public final class NMSChunk implements TapChunk
 {
 
-	private final WorldServer world;
+    private final WorldServer world;
 
     private TapWorld tapWorld;
 
-	private WeakReference<Chunk> weakChunk;
+    private WeakReference<Chunk> weakChunk;
 
-	private final int x, z;
+    private final int x, z;
 
-	NMSChunk(Chunk chunk)
-	{
-		this.weakChunk = new WeakReference<>(chunk);
-		this.world = (WorldServer) chunk.getWorld();
-		this.x = chunk.locX;
-		this.z = chunk.locZ;
-	}
+    NMSChunk(Chunk chunk)
+    {
+        this.weakChunk = new WeakReference<>(chunk);
+        this.world = (WorldServer) chunk.getWorld();
+        this.x = chunk.locX;
+        this.z = chunk.locZ;
+    }
 
     public Chunk getHandle()
     {
@@ -42,30 +42,30 @@ public final class NMSChunk implements TapChunk
         return chunk;
     }
 
-	@Override
-	public TapWorld getWorld()
-	{
-		TapWorld world = this.tapWorld;
+    @Override
+    public TapWorld getWorld()
+    {
+        TapWorld world = this.tapWorld;
 
-		return world == null ? this.tapWorld = NMSWorldSupport.getInstance().wrapWorld(this.world) : world;
-	}
+        return world == null ? this.tapWorld = NMSWorldSupport.getInstance().wrapWorld(this.world) : world;
+    }
 
-	@Override
-	public int getX()
-	{
-		return this.x;
-	}
+    @Override
+    public int getX()
+    {
+        return this.x;
+    }
 
-	@Override
-	public int getZ()
-	{
-		return this.z;
-	}
+    @Override
+    public int getZ()
+    {
+        return this.z;
+    }
 
-	@Override
-	public TapBlockData getBlockData(int x, int y, int z)
-	{
-		return NMSBlockSupport.getInstance().wrapBlockData(getHandle().getBlockData(new BlockPosition(x, y, z)));
-	}
+    @Override
+    public TapBlockData getBlockData(int x, int y, int z)
+    {
+        return NMSBlockSupport.getInstance().wrapBlockData(getHandle().getBlockData(new BlockPosition(x, y, z)));
+    }
 
 }

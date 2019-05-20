@@ -4,10 +4,10 @@ import com.nemosw.spigot.tap.scoreboard.ScoreboardSupport;
 
 public final class NMSScoreboardSupport implements ScoreboardSupport
 {
-	@Override
-	public NMSScoreboard newScoreboard()
-	{
-		return new NMSScoreboard();
-	}
+    @Override
+    public NMSScoreboard newScoreboard()
+    {
+        return new NMSScoreboard();
+    }
 
 }

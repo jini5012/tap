@@ -18,49 +18,50 @@ import java.util.stream.Collectors;
 public final class NMSEntitySelector implements EntitySelector
 {
 
-	private static final MinecraftServer SERVER = ((CraftServer) Bukkit.getServer()).getServer();
+    private static final MinecraftServer SERVER = ((CraftServer) Bukkit.getServer()).getServer();
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T extends org.bukkit.entity.Entity> List<T> matchEntities(CommandSender sender, String token, Class<? extends org.bukkit.entity.Entity> target)
-	{
-		ICommandListener commandSender = getICommandSender(sender);
-		MinecraftServer server = SERVER;
-		Class<? extends Entity> targetEntity = NMSEntityTypes.getEntityClass(target);
-		if (targetEntity == null)
-			targetEntity = Entity.class;
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T extends org.bukkit.entity.Entity> List<T> matchEntities(CommandSender sender, String token, Class<? extends org.bukkit.entity.Entity> target)
+    {
+        ICommandListener commandSender = getICommandSender(sender);
+        MinecraftServer server = SERVER;
+        Class<? extends Entity> targetEntity = NMSEntityTypes.getEntityClass(target);
+        if (targetEntity == null)
+            targetEntity = Entity.class;
 
-		WorldServer[] defaultWorlds = server.worldServer;
-		List<WorldServer> worldList = server.worlds;
-		server.worldServer = worldList.toArray(new WorldServer[0]);
+        WorldServer[] defaultWorlds = server.worldServer;
+        List<WorldServer> worldList = server.worlds;
+        server.worldServer = worldList.toArray(new WorldServer[0]);
 
-		try
-		{
-			List<? extends Entity> entities = PlayerSelector.getPlayers(commandSender, token, targetEntity);
-			return entities.isEmpty() ? Collections.EMPTY_LIST : entities.stream().map((entity) -> (T) entity.getBukkitEntity()).collect(Collectors.toList());
-		}
-		catch (CommandException ignored)
-		{}
-		finally
-		{
-			server.worldServer = defaultWorlds;
-		}
-		
-		return Collections.emptyList();
-	}
+        try
+        {
+            List<? extends Entity> entities = PlayerSelector.getPlayers(commandSender, token, targetEntity);
+            return entities.isEmpty() ? Collections.EMPTY_LIST : entities.stream().map((entity) -> (T) entity.getBukkitEntity()).collect(Collectors.toList());
+        }
+        catch (CommandException ignored)
+        {
+        }
+        finally
+        {
+            server.worldServer = defaultWorlds;
+        }
 
-	private static ICommandListener getICommandSender(CommandSender sender)
-	{
-		if (sender instanceof CraftEntity)
-			return ((CraftEntity) sender).getHandle();
-		if (sender instanceof CraftBlockCommandSender)
-			return ((CraftBlockCommandSender) sender).getTileEntity();
-		if (sender instanceof CraftConsoleCommandSender)
-			return ((CraftServer) Bukkit.getServer()).getServer();
-		if (sender instanceof CraftRemoteConsoleCommandSender)
-			return ((DedicatedServer) ((CraftServer) Bukkit.getServer()).getServer()).remoteControlCommandListener;
+        return Collections.emptyList();
+    }
 
-		throw new IllegalArgumentException();
-	}
+    private static ICommandListener getICommandSender(CommandSender sender)
+    {
+        if (sender instanceof CraftEntity)
+            return ((CraftEntity) sender).getHandle();
+        if (sender instanceof CraftBlockCommandSender)
+            return ((CraftBlockCommandSender) sender).getTileEntity();
+        if (sender instanceof CraftConsoleCommandSender)
+            return ((CraftServer) Bukkit.getServer()).getServer();
+        if (sender instanceof CraftRemoteConsoleCommandSender)
+            return ((DedicatedServer) ((CraftServer) Bukkit.getServer()).getServer()).remoteControlCommandListener;
+
+        throw new IllegalArgumentException();
+    }
 
 }

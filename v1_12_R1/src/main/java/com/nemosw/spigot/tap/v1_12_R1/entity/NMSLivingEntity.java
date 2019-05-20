@@ -6,7 +6,6 @@ import com.nemosw.spigot.tap.v1_12_R1.item.NMSItemStack;
 import com.nemosw.spigot.tap.v1_12_R1.item.NMSItemSupport;
 import net.minecraft.server.v1_12_R1.Entity;
 import net.minecraft.server.v1_12_R1.EntityLiving;
-import net.minecraft.server.v1_12_R1.EnumItemSlot;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EquipmentSlot;
 

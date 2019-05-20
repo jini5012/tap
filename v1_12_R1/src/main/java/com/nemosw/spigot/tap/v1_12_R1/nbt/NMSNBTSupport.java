@@ -11,20 +11,20 @@ import java.io.InputStream;
 
 public final class NMSNBTSupport implements NBTSupport
 {
-	@Override
-	public NBTCompound loadCompound(InputStream in)
-	{
-		try
-		{
-			return new NMSNBTCompound(NBTCompressedStreamTools.a(in));
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+    @Override
+    public NBTCompound loadCompound(InputStream in)
+    {
+        try
+        {
+            return new NMSNBTCompound(NBTCompressedStreamTools.a(in));
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
 
-		return null;
-	}
+        return null;
+    }
 
     @Override
     public NBTCompound loadCompound(byte[] bytes)
@@ -33,27 +33,27 @@ public final class NMSNBTSupport implements NBTSupport
     }
 
     @Override
-	public NMSNBTCompound newCompound()
-	{
-		return new NMSNBTCompound(new NBTTagCompound());
-	}
+    public NMSNBTCompound newCompound()
+    {
+        return new NMSNBTCompound(new NBTTagCompound());
+    }
 
-	@Override
-	public NBTList newList()
-	{
-		return new NMSNBTList(new NBTTagList());
-	}
-	
-	@Override
-	public NMSNBTCompound fromJsonString(String json)
-	{
-		try
-		{
-			return new NMSNBTCompound(MojangsonParser.parse(json));
-		}
-		catch (MojangsonParseException e)
-		{
-			throw new IllegalArgumentException(e);
-		}
-	}
+    @Override
+    public NBTList newList()
+    {
+        return new NMSNBTList(new NBTTagList());
+    }
+
+    @Override
+    public NMSNBTCompound fromJsonString(String json)
+    {
+        try
+        {
+            return new NMSNBTCompound(MojangsonParser.parse(json));
+        }
+        catch (MojangsonParseException e)
+        {
+            throw new IllegalArgumentException(e);
+        }
+    }
 }

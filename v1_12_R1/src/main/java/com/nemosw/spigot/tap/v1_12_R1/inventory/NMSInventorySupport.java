@@ -14,35 +14,35 @@ import java.util.Map;
 public final class NMSInventorySupport implements InventorySupport
 {
 
-	private final Map<IInventory, TapInventory> cache;
+    private final Map<IInventory, TapInventory> cache;
 
-	public NMSInventorySupport()
-	{
-		cache = new MapMaker().weakValues().makeMap();
-	}
+    public NMSInventorySupport()
+    {
+        cache = new MapMaker().weakValues().makeMap();
+    }
 
-	@Override
-	public TapInventory fromInventory(org.bukkit.inventory.Inventory inventory)
-	{
-		Map<IInventory, TapInventory> cache = this.cache;
-		CraftInventory craftInventory = (CraftInventory) inventory;
-		IInventory iinventory = craftInventory.getInventory();
-		TapInventory tapInventory = cache.get(iinventory);
+    @Override
+    public TapInventory fromInventory(org.bukkit.inventory.Inventory inventory)
+    {
+        Map<IInventory, TapInventory> cache = this.cache;
+        CraftInventory craftInventory = (CraftInventory) inventory;
+        IInventory iinventory = craftInventory.getInventory();
+        TapInventory tapInventory = cache.get(iinventory);
 
-		if (tapInventory == null)
-		{
-			if (inventory instanceof org.bukkit.inventory.PlayerInventory)
+        if (tapInventory == null)
+        {
+            if (inventory instanceof org.bukkit.inventory.PlayerInventory)
             {
                 NMSPlayer nmsPlayer = NMSEntitySupport.getInstance().wrapEntity(((PlayerInventory) inventory).getHolder());
 
                 return nmsPlayer.getInventory();
             }
 
-			tapInventory = new NMSInventory(iinventory, craftInventory);
-			cache.put(iinventory, tapInventory);
-		}
+            tapInventory = new NMSInventory(iinventory, craftInventory);
+            cache.put(iinventory, tapInventory);
+        }
 
-		return tapInventory;
-	}
+        return tapInventory;
+    }
 
 }

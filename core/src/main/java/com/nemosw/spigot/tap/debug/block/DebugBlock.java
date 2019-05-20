@@ -27,8 +27,8 @@ public class DebugBlock extends DebugProcess
             @EventHandler
             public void onPlayerInteract(PlayerInteractEvent event)
             {
-               if (event.getHand() != EquipmentSlot.HAND)
-                   return;
+                if (event.getHand() != EquipmentSlot.HAND)
+                    return;
 
                 Action action = event.getAction();
 

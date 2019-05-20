@@ -15,21 +15,21 @@ import java.util.List;
 
 public interface NMSPacket extends Packet
 {
-	
-	DedicatedPlayerList SERVER = ((CraftServer) Bukkit.getServer()).getHandle();
-	
-	@Override
-	default void sendTo(Player player)
-	{
-		send(((CraftPlayer) player).getHandle());
-	}
 
-	@Override
-	default void sendNearBy(World world, double x, double y, double z, double radius)
-	{
-		int dimension = ((CraftWorld) world).getHandle().dimension;
-		double squareRadius = radius * radius;
-		List<EntityPlayer> players = SERVER.players;
+    DedicatedPlayerList SERVER = ((CraftServer) Bukkit.getServer()).getHandle();
+
+    @Override
+    default void sendTo(Player player)
+    {
+        send(((CraftPlayer) player).getHandle());
+    }
+
+    @Override
+    default void sendNearBy(World world, double x, double y, double z, double radius)
+    {
+        int dimension = ((CraftWorld) world).getHandle().dimension;
+        double squareRadius = radius * radius;
+        List<EntityPlayer> players = SERVER.players;
 
         for (EntityPlayer player : players)
         {
@@ -43,25 +43,25 @@ public interface NMSPacket extends Packet
                     send(player);
             }
         }
-	}
+    }
 
-	@Override
-	default void sendAll()
-	{
-		List<EntityPlayer> players = NMSPacketFixed.SERVER.players;
+    @Override
+    default void sendAll()
+    {
+        List<EntityPlayer> players = NMSPacketFixed.SERVER.players;
 
         for (EntityPlayer player : players)
             send(player);
-	}
-	
-	default void send(EntityPlayer player)
-	{
-		PlayerConnection conn = player.playerConnection;
-		
-		if (conn != null)
-			send(conn);
-	}
-	
-	void send(PlayerConnection conn);
-	
+    }
+
+    default void send(EntityPlayer player)
+    {
+        PlayerConnection conn = player.playerConnection;
+
+        if (conn != null)
+            send(conn);
+    }
+
+    void send(PlayerConnection conn);
+
 }

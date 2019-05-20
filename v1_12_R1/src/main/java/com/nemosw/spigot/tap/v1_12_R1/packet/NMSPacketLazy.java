@@ -6,13 +6,13 @@ import net.minecraft.server.v1_12_R1.PlayerConnection;
 @FunctionalInterface
 public interface NMSPacketLazy extends NMSPacket
 {
-	
-	@Override
-	default void send(PlayerConnection conn)
-	{
-		conn.sendPacket(create());
-	}
-	
-	PacketPlayOutCustomPayload create();
+
+    @Override
+    default void send(PlayerConnection conn)
+    {
+        conn.sendPacket(create());
+    }
+
+    PacketPlayOutCustomPayload create();
 
 }

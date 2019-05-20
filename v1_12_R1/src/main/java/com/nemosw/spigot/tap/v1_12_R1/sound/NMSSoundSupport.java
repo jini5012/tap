@@ -7,17 +7,17 @@ import net.minecraft.server.v1_12_R1.SoundEffect;
 
 public final class NMSSoundSupport implements SoundSupport
 {
-	
-	@Override
-	public Sound fromName(String name)
-	{
-		MinecraftKey key = new MinecraftKey(name);
-		SoundEffect soundEffect = SoundEffect.a.get(key);
-		
-		if (soundEffect == null)
-			soundEffect = new SoundEffect(key);
-		
-		return new NMSSound(name, soundEffect);
-	}
-	
+
+    @Override
+    public Sound fromName(String name)
+    {
+        MinecraftKey key = new MinecraftKey(name);
+        SoundEffect soundEffect = SoundEffect.a.get(key);
+
+        if (soundEffect == null)
+            soundEffect = new SoundEffect(key);
+
+        return new NMSSound(name, soundEffect);
+    }
+
 }

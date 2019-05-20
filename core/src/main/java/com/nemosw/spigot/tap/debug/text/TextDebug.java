@@ -21,7 +21,8 @@ public class TextDebug extends DebugProcess
     @Override
     public void onStart()
     {
-        registerListener(new Listener() {
+        registerListener(new Listener()
+        {
             @EventHandler
             public void onPlayerInteract(PlayerInteractEvent event)
             {

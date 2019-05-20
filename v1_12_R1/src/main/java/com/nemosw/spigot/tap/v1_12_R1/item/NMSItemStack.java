@@ -19,22 +19,22 @@ public final class NMSItemStack implements TapItemStack
 
     public static final NMSItemStack EMPTY = new NMSItemStack(ItemStack.a);
 
-	private static final String TAG_DISPLAY = "display";
+    private static final String TAG_DISPLAY = "display";
 
-	private static final String TAG_NAME = "Name";
+    private static final String TAG_NAME = "Name";
 
-	private static final String TAG_LORE = "Lore";
+    private static final String TAG_LORE = "Lore";
 
-	private static final String TAG_UNBREAKABLE = "Unbreakable";
+    private static final String TAG_UNBREAKABLE = "Unbreakable";
 
-	private static final String TAG_HIDE_FLAGS = "HideFlags";
+    private static final String TAG_HIDE_FLAGS = "HideFlags";
 
-	private final ItemStack itemStack;
+    private final ItemStack itemStack;
 
-	NMSItemStack(ItemStack itemStack)
-	{
-		this.itemStack = itemStack;
-	}
+    NMSItemStack(ItemStack itemStack)
+    {
+        this.itemStack = itemStack;
+    }
 
     @Override
     public NMSItem getItem()
@@ -43,122 +43,122 @@ public final class NMSItemStack implements TapItemStack
     }
 
     @Override
-	public int getId()
-	{
-		return Item.getId(itemStack.getItem());
-	}
+    public int getId()
+    {
+        return Item.getId(itemStack.getItem());
+    }
 
-	@Override
-	public int getAmount()
-	{
-		return itemStack.getCount();
-	}
+    @Override
+    public int getAmount()
+    {
+        return itemStack.getCount();
+    }
 
-	@Override
-	public boolean isEmpty()
-	{
-		return itemStack.isEmpty();
-	}
+    @Override
+    public boolean isEmpty()
+    {
+        return itemStack.isEmpty();
+    }
 
-	@Override
-	public int getData()
-	{
-		return itemStack.getData();
-	}
+    @Override
+    public int getData()
+    {
+        return itemStack.getData();
+    }
 
-	@Override
-	public String getName()
-	{
-		String name = getDisplayName();
+    @Override
+    public String getName()
+    {
+        String name = getDisplayName();
 
-		if (name != null)
-			return name;
+        if (name != null)
+            return name;
 
-		return getUnlocalizedName();
-	}
+        return getUnlocalizedName();
+    }
 
-	@Override
-	public String getUnlocalizedName()
-	{
-		return itemStack.a();
-	}
+    @Override
+    public String getUnlocalizedName()
+    {
+        return itemStack.a();
+    }
 
-	@SuppressWarnings("unchecked")
-	private <T extends NBTBase> T getDisplayTag(String name)
-	{
-		NBTTagCompound tag = itemStack.getTag();
+    @SuppressWarnings("unchecked")
+    private <T extends NBTBase> T getDisplayTag(String name)
+    {
+        NBTTagCompound tag = itemStack.getTag();
 
-		if (tag != null)
-		{
-			NBTTagCompound display = (NBTTagCompound) tag.get("display");
+        if (tag != null)
+        {
+            NBTTagCompound display = (NBTTagCompound) tag.get("display");
 
-			if (display != null)
-				return (T) display.get(name);
-		}
+            if (display != null)
+                return (T) display.get(name);
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	@Override
-	public String getDisplayName()
-	{
-		NBTTagString name = getDisplayTag(TAG_NAME);
+    @Override
+    public String getDisplayName()
+    {
+        NBTTagString name = getDisplayTag(TAG_NAME);
 
-		return name == null ? null : name.c_();
-	}
+        return name == null ? null : name.c_();
+    }
 
-	private NBTTagList getLoreTag()
-	{
-		return getDisplayTag(TAG_LORE);
-	}
+    private NBTTagList getLoreTag()
+    {
+        return getDisplayTag(TAG_LORE);
+    }
 
-	@Override
-	public List<String> getLore()
-	{
-		NBTTagList lore = getLoreTag();
+    @Override
+    public List<String> getLore()
+    {
+        NBTTagList lore = getLoreTag();
 
-		if (lore != null)
-			return new LoreList(lore);
+        if (lore != null)
+            return new LoreList(lore);
 
-		return null;
-	}
+        return null;
+    }
 
-	private static class LoreList extends AbstractList<String> implements RandomAccess
-	{
+    private static class LoreList extends AbstractList<String> implements RandomAccess
+    {
 
-		private final NBTTagList lore;
+        private final NBTTagList lore;
 
-		LoreList(NBTTagList lore)
-		{
-			this.lore = lore;
-		}
+        LoreList(NBTTagList lore)
+        {
+            this.lore = lore;
+        }
 
-		@Override
-		public String get(int index)
-		{
-			return this.lore.getString(index);
-		}
+        @Override
+        public String get(int index)
+        {
+            return this.lore.getString(index);
+        }
 
-		@Override
-		public int size()
-		{
-			return this.lore.size();
-		}
+        @Override
+        public int size()
+        {
+            return this.lore.size();
+        }
 
-	}
+    }
 
-	@Override
-	public boolean hasLore(Predicate<String> p)
-	{
-		return findLore(p) != null;
-	}
+    @Override
+    public boolean hasLore(Predicate<String> p)
+    {
+        return findLore(p) != null;
+    }
 
-	@Override
-	public String findLore(Predicate<String> p)
-	{
-		NBTTagList lore = getLoreTag();
+    @Override
+    public String findLore(Predicate<String> p)
+    {
+        NBTTagList lore = getLoreTag();
 
-		if (lore != null)
+        if (lore != null)
         {
             for (int i = 0, size = lore.size(); i < size; i++)
             {
@@ -169,15 +169,15 @@ public final class NMSItemStack implements TapItemStack
             }
         }
 
-		return null;
-	}
+        return null;
+    }
 
-	@Override
-	public String findLoreLast(Predicate<String> p)
-	{
-		NBTTagList lore = getLoreTag();
+    @Override
+    public String findLoreLast(Predicate<String> p)
+    {
+        NBTTagList lore = getLoreTag();
 
-		if (lore != null)
+        if (lore != null)
         {
             for (int i = lore.size() - 1; i >= 0; i++)
             {
@@ -188,192 +188,192 @@ public final class NMSItemStack implements TapItemStack
             }
         }
 
-		return null;
-	}
+        return null;
+    }
 
-	@Override
-	public boolean hasTag()
-	{
-		NBTTagCompound tag = itemStack.getTag();
+    @Override
+    public boolean hasTag()
+    {
+        NBTTagCompound tag = itemStack.getTag();
 
-		return tag != null && !tag.isEmpty();
-	}
+        return tag != null && !tag.isEmpty();
+    }
 
-	@Override
-	public NBTCompound getTag()
-	{
-		NBTTagCompound tag = itemStack.getTag();
+    @Override
+    public NBTCompound getTag()
+    {
+        NBTTagCompound tag = itemStack.getTag();
 
-		return tag == null ? null : new NMSNBTCompound(tag);
-	}
+        return tag == null ? null : new NMSNBTCompound(tag);
+    }
 
-	@Override
-	public boolean hasItemMeta()
-	{
-		return hasTag();
-	}
+    @Override
+    public boolean hasItemMeta()
+    {
+        return hasTag();
+    }
 
-	@Override
-	public ItemMeta getItemMeta()
-	{
-		return CraftItemStack.getItemMeta(itemStack);
-	}
+    @Override
+    public ItemMeta getItemMeta()
+    {
+        return CraftItemStack.getItemMeta(itemStack);
+    }
 
-	@Override
-	public CraftItemStack toItemStack()
-	{
-		return CraftItemStack.asCraftMirror(this.itemStack);
-	}
-	
-	@Override
-	public NMSItemStack setItem(TapItem item)
-	{
-		itemStack.setItem(((NMSItem) item).getHandle());
-		
-		return this;
-	}
-	
-	@Override
-	public NMSItemStack setItem(int itemId)
-	{
-		itemStack.setItem(Item.getById(itemId));
-		
-		return this;
-	}
+    @Override
+    public CraftItemStack toItemStack()
+    {
+        return CraftItemStack.asCraftMirror(this.itemStack);
+    }
 
-	@Override
-	public NMSItemStack setAmount(int amount)
-	{
-		int maxStackSize = itemStack.getMaxStackSize();
+    @Override
+    public NMSItemStack setItem(TapItem item)
+    {
+        itemStack.setItem(((NMSItem) item).getHandle());
 
-		if (amount > maxStackSize)
-			amount = maxStackSize;
-		else if (amount < 0)
-			amount = 0;
+        return this;
+    }
 
-		itemStack.setCount(amount);
+    @Override
+    public NMSItemStack setItem(int itemId)
+    {
+        itemStack.setItem(Item.getById(itemId));
 
-		return this;
-	}
+        return this;
+    }
 
-	@Override
-	public NMSItemStack setData(int data)
-	{
-		itemStack.setData(data);
+    @Override
+    public NMSItemStack setAmount(int amount)
+    {
+        int maxStackSize = itemStack.getMaxStackSize();
 
-		return this;
-	}
+        if (amount > maxStackSize)
+            amount = maxStackSize;
+        else if (amount < 0)
+            amount = 0;
 
-	private void removeDisplayTag(String name)
-	{
-		NBTTagCompound tag = itemStack.getTag();
+        itemStack.setCount(amount);
 
-		if (tag != null)
-		{
-			NBTTagCompound display = (NBTTagCompound) tag.get(TAG_DISPLAY);
+        return this;
+    }
 
-			if (display != null)
-			{
-				display.remove(name);
+    @Override
+    public NMSItemStack setData(int data)
+    {
+        itemStack.setData(data);
 
-				if (display.isEmpty())
-				{
-					tag.remove(TAG_DISPLAY);
+        return this;
+    }
 
-					if (tag.isEmpty())
-						itemStack.setTag(null);
-				}
-			}
-		}
-	}
+    private void removeDisplayTag(String name)
+    {
+        NBTTagCompound tag = itemStack.getTag();
 
-	private void setDisplayTag(String name, NBTBase value)
-	{
-		ItemStack itemStack = this.itemStack;
-		NBTTagCompound tag = itemStack.getTag();
+        if (tag != null)
+        {
+            NBTTagCompound display = (NBTTagCompound) tag.get(TAG_DISPLAY);
 
-		if (tag == null)
-		{
-			tag = new NBTTagCompound();
-			itemStack.setTag(tag);
-		}
+            if (display != null)
+            {
+                display.remove(name);
 
-		NBTTagCompound display = (NBTTagCompound) tag.get(TAG_DISPLAY);
+                if (display.isEmpty())
+                {
+                    tag.remove(TAG_DISPLAY);
 
-		if (display == null)
-		{
-			display = new NBTTagCompound();
-			tag.set(TAG_DISPLAY, display);
-		}
+                    if (tag.isEmpty())
+                        itemStack.setTag(null);
+                }
+            }
+        }
+    }
 
-		display.set(name, value);
-	}
+    private void setDisplayTag(String name, NBTBase value)
+    {
+        ItemStack itemStack = this.itemStack;
+        NBTTagCompound tag = itemStack.getTag();
 
-	@Override
-	public NMSItemStack setDisplayName(String name)
-	{
-		if (name == null)
-			removeDisplayTag(TAG_NAME);
-		else
-			setDisplayTag(TAG_NAME, new NBTTagString(name));
+        if (tag == null)
+        {
+            tag = new NBTTagCompound();
+            itemStack.setTag(tag);
+        }
 
-		return this;
-	}
+        NBTTagCompound display = (NBTTagCompound) tag.get(TAG_DISPLAY);
 
-	@Override
-	public NMSItemStack setLore(List<String> lore)
-	{
-		if (lore == null)
-			removeDisplayTag(TAG_LORE);
-		else
-		{
-			NBTTagList list = new NBTTagList();
+        if (display == null)
+        {
+            display = new NBTTagCompound();
+            tag.set(TAG_DISPLAY, display);
+        }
 
-			for (String s : lore)
-				list.add(new NBTTagString(s));
+        display.set(name, value);
+    }
 
-			setDisplayTag(TAG_LORE, list);
-		}
+    @Override
+    public NMSItemStack setDisplayName(String name)
+    {
+        if (name == null)
+            removeDisplayTag(TAG_NAME);
+        else
+            setDisplayTag(TAG_NAME, new NBTTagString(name));
 
-		return this;
-	}
+        return this;
+    }
 
-	@Override
-	public NMSItemStack addLore(List<String> lore)
-	{
-		if (lore.size() > 0)
-		{
-			ItemStack itemStack = this.itemStack;
-			NBTTagCompound tag = itemStack.getTag();
+    @Override
+    public NMSItemStack setLore(List<String> lore)
+    {
+        if (lore == null)
+            removeDisplayTag(TAG_LORE);
+        else
+        {
+            NBTTagList list = new NBTTagList();
 
-			if (tag == null)
-			{
-				tag = new NBTTagCompound();
-				itemStack.setTag(tag);
-			}
+            for (String s : lore)
+                list.add(new NBTTagString(s));
 
-			NBTTagCompound display = (NBTTagCompound) tag.get(TAG_DISPLAY);
+            setDisplayTag(TAG_LORE, list);
+        }
 
-			if (display == null)
-			{
-				display = new NBTTagCompound();
-				tag.set(TAG_DISPLAY, display);
-			}
+        return this;
+    }
 
-			NBTTagList list = (NBTTagList) display.get(TAG_LORE);
+    @Override
+    public NMSItemStack addLore(List<String> lore)
+    {
+        if (lore.size() > 0)
+        {
+            ItemStack itemStack = this.itemStack;
+            NBTTagCompound tag = itemStack.getTag();
 
-			if (list == null)
-			{
-				list = new NBTTagList();
-				display.set(TAG_LORE, list);
-			}
+            if (tag == null)
+            {
+                tag = new NBTTagCompound();
+                itemStack.setTag(tag);
+            }
 
-			for (String s : lore)
-				list.add(new NBTTagString(s));
-		}
+            NBTTagCompound display = (NBTTagCompound) tag.get(TAG_DISPLAY);
 
-		return this;
-	}
+            if (display == null)
+            {
+                display = new NBTTagCompound();
+                tag.set(TAG_DISPLAY, display);
+            }
+
+            NBTTagList list = (NBTTagList) display.get(TAG_LORE);
+
+            if (list == null)
+            {
+                list = new NBTTagList();
+                display.set(TAG_LORE, list);
+            }
+
+            for (String s : lore)
+                list.add(new NBTTagString(s));
+        }
+
+        return this;
+    }
 
     @Override
     public NMSItemStack setUnbreakable(boolean flag)
@@ -409,146 +409,147 @@ public final class NMSItemStack implements TapItemStack
     }
 
     @Override
-	public NMSItemStack setHideFlags(int hideFlags)
-	{
-		ItemStack itemStack = this.itemStack;
+    public NMSItemStack setHideFlags(int hideFlags)
+    {
+        ItemStack itemStack = this.itemStack;
 
-		if (hideFlags > 0)
-		{
-			if (hideFlags > 63)
-				hideFlags = 63;
+        if (hideFlags > 0)
+        {
+            if (hideFlags > 63)
+                hideFlags = 63;
 
-			NBTTagCompound tag = itemStack.getTag();
+            NBTTagCompound tag = itemStack.getTag();
 
-			if (tag == null)
-			{
-				tag = new NBTTagCompound();
-				this.itemStack.setTag(tag);
-			}
+            if (tag == null)
+            {
+                tag = new NBTTagCompound();
+                this.itemStack.setTag(tag);
+            }
 
-			tag.setInt(TAG_HIDE_FLAGS, hideFlags);
-		}
-		else
-		{
-			NBTTagCompound tag = this.itemStack.getTag();
+            tag.setInt(TAG_HIDE_FLAGS, hideFlags);
+        }
+        else
+        {
+            NBTTagCompound tag = this.itemStack.getTag();
 
-			if (tag != null)
-			{
-				tag.remove(TAG_HIDE_FLAGS);
+            if (tag != null)
+            {
+                tag.remove(TAG_HIDE_FLAGS);
 
-				if (tag.isEmpty())
-					itemStack.setTag(null);
-			}
-		}
+                if (tag.isEmpty())
+                    itemStack.setTag(null);
+            }
+        }
 
-		return this;
-	}
+        return this;
+    }
 
-	@Override
-	public NMSItemStack setTag(NBTCompound tag)
-	{
-		itemStack.setTag(tag == null ? null : ((NMSNBTCompound) tag).getHandle());
+    @Override
+    public NMSItemStack setTag(NBTCompound tag)
+    {
+        itemStack.setTag(tag == null ? null : ((NMSNBTCompound) tag).getHandle());
 
-		return this;
-	}
+        return this;
+    }
 
-	@Override
-	public NMSItemStack setItemMeta(ItemMeta meta)
-	{
-		CraftItemStack.setItemMeta(itemStack, meta);
+    @Override
+    public NMSItemStack setItemMeta(ItemMeta meta)
+    {
+        CraftItemStack.setItemMeta(itemStack, meta);
 
-		return this;
-	}
+        return this;
+    }
 
-	@Override
-	public CraftItem spawn(org.bukkit.World world, double x, double y, double z)
-	{
-		World w = ((CraftWorld) world).getHandle();
+    @Override
+    public CraftItem spawn(org.bukkit.World world, double x, double y, double z)
+    {
+        World w = ((CraftWorld) world).getHandle();
 
-		EntityItem entity = new EntityItem(w, x, y, z, itemStack.cloneItemStack());
-		entity.pickupDelay = 10;
-		w.addEntity(entity);
-
-		return (CraftItem) entity.getBukkitEntity();
-	}
-
-	@Override
-	public CraftItem spawnNaturally(org.bukkit.World world, double x, double y, double z)
-	{
-		World w = ((CraftWorld) world).getHandle();
-		Random r = w.random;
-
-		EntityItem entity = new EntityItem(w, x + r.nextFloat() * 0.7F + 0.1500000059604645D, y + r.nextFloat() * 0.7F + 0.1500000059604645D,
-				z + r.nextFloat() * 0.7F + 0.1500000059604645D, this.itemStack);
-		entity.pickupDelay = 10;
-		w.addEntity(entity);
+        EntityItem entity = new EntityItem(w, x, y, z, itemStack.cloneItemStack());
+        entity.pickupDelay = 10;
+        w.addEntity(entity);
 
         return (CraftItem) entity.getBukkitEntity();
-	}
+    }
 
-	@Override
-	public boolean isSimilar(TapItemStack other)
-	{
-		return isSimilar(itemStack, ((NMSItemStack) other).itemStack);
-	}
+    @Override
+    public CraftItem spawnNaturally(org.bukkit.World world, double x, double y, double z)
+    {
+        World w = ((CraftWorld) world).getHandle();
+        Random r = w.random;
 
-	private static boolean isSimilar(ItemStack a, ItemStack b)
-	{
-		if (a == b)
-			return true;
+        EntityItem entity = new EntityItem(w, x + r.nextFloat() * 0.7F + 0.1500000059604645D, y + r.nextFloat() * 0.7F + 0.1500000059604645D,
+                z + r.nextFloat() * 0.7F + 0.1500000059604645D, this.itemStack
+        );
+        entity.pickupDelay = 10;
+        w.addEntity(entity);
 
-		Item item = a.getItem();
+        return (CraftItem) entity.getBukkitEntity();
+    }
 
-		return item == b.getItem() && (item.getMaxDurability() > 0 || a.getData() == b.getData()) && Objects.equals(a.getTag(), b.getTag());
-	}
+    @Override
+    public boolean isSimilar(TapItemStack other)
+    {
+        return isSimilar(itemStack, ((NMSItemStack) other).itemStack);
+    }
 
-	@Override
-	public NMSItemStack copy()
-	{
-		return new NMSItemStack(itemStack.cloneItemStack());
-	}
+    private static boolean isSimilar(ItemStack a, ItemStack b)
+    {
+        if (a == b)
+            return true;
 
-	@Override
-	public NBTCompound save(NBTCompound compound)
-	{
-		itemStack.save(((NMSNBTCompound) compound).getHandle());
+        Item item = a.getItem();
 
-		return compound;
-	}
+        return item == b.getItem() && (item.getMaxDurability() > 0 || a.getData() == b.getData()) && Objects.equals(a.getTag(), b.getTag());
+    }
 
-	public ItemStack getHandle()
+    @Override
+    public NMSItemStack copy()
+    {
+        return new NMSItemStack(itemStack.cloneItemStack());
+    }
+
+    @Override
+    public NBTCompound save(NBTCompound compound)
+    {
+        itemStack.save(((NMSNBTCompound) compound).getHandle());
+
+        return compound;
+    }
+
+    public ItemStack getHandle()
     {
         return itemStack;
     }
 
-	@Override
-	public int hashCode()
-	{
-		int hash = 1;
-		hash = hash * 31 + getId();
-		hash = hash * 31 + getAmount();
-		hash = hash * 31 + getData();
+    @Override
+    public int hashCode()
+    {
+        int hash = 1;
+        hash = hash * 31 + getId();
+        hash = hash * 31 + getAmount();
+        hash = hash * 31 + getData();
 
-		NBTTagCompound tag = this.itemStack.getTag();
+        NBTTagCompound tag = this.itemStack.getTag();
 
-		if (tag != null)
-			hash = hash * 31 + tag.hashCode();
+        if (tag != null)
+            hash = hash * 31 + tag.hashCode();
 
-		return hash;
-	}
+        return hash;
+    }
 
-	@Override
-	public boolean equals(Object obj)
-	{
-		if (obj instanceof NMSItemStack)
-		{
-			ItemStack a = itemStack;
-			ItemStack b = ((NMSItemStack) obj).itemStack;
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj instanceof NMSItemStack)
+        {
+            ItemStack a = itemStack;
+            ItemStack b = ((NMSItemStack) obj).itemStack;
 
-			return isSimilar(a, b) && a.getCount() == b.getCount();
-		}
+            return isSimilar(a, b) && a.getCount() == b.getCount();
+        }
 
-		return false;
-	}
+        return false;
+    }
 
 }

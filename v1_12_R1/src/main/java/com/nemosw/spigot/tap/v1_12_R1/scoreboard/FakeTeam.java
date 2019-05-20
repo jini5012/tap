@@ -12,174 +12,174 @@ import java.util.Collection;
 public final class FakeTeam extends ScoreboardTeam
 {
 
-	private static final EnumNameTagVisibility[] NAME_TAG_VISIBILITIES;
+    private static final EnumNameTagVisibility[] NAME_TAG_VISIBILITIES;
 
-	private static final EnumTeamPush[] TEAM_PUSHES;
+    private static final EnumTeamPush[] TEAM_PUSHES;
 
-	private static final EnumChatFormat[] CHAT_FORMATS;
+    private static final EnumChatFormat[] CHAT_FORMATS;
 
-	static
-	{
-		EnumNameTagVisibility[] visibilities = new EnumNameTagVisibility[NameTagVisibility.list().size()];
-		visibilities[NameTagVisibility.ALWAYS.ordinal()] = EnumNameTagVisibility.ALWAYS;
-		visibilities[NameTagVisibility.NEVER.ordinal()] = EnumNameTagVisibility.NEVER;
-		visibilities[NameTagVisibility.HIDE_FOR_OTHER_TEAMS.ordinal()] = EnumNameTagVisibility.HIDE_FOR_OTHER_TEAMS;
-		visibilities[NameTagVisibility.HIDE_FOR_OWN_TEAM.ordinal()] = EnumNameTagVisibility.HIDE_FOR_OWN_TEAM;
-		NAME_TAG_VISIBILITIES = visibilities;
+    static
+    {
+        EnumNameTagVisibility[] visibilities = new EnumNameTagVisibility[NameTagVisibility.list().size()];
+        visibilities[NameTagVisibility.ALWAYS.ordinal()] = EnumNameTagVisibility.ALWAYS;
+        visibilities[NameTagVisibility.NEVER.ordinal()] = EnumNameTagVisibility.NEVER;
+        visibilities[NameTagVisibility.HIDE_FOR_OTHER_TEAMS.ordinal()] = EnumNameTagVisibility.HIDE_FOR_OTHER_TEAMS;
+        visibilities[NameTagVisibility.HIDE_FOR_OWN_TEAM.ordinal()] = EnumNameTagVisibility.HIDE_FOR_OWN_TEAM;
+        NAME_TAG_VISIBILITIES = visibilities;
 
-		EnumTeamPush[] pushes = new EnumTeamPush[EnumTeamPush.values().length];
-		pushes[CollisionRule.ALWAYS.ordinal()] = EnumTeamPush.ALWAYS;
-		pushes[CollisionRule.NEVER.ordinal()] = EnumTeamPush.NEVER;
-		pushes[CollisionRule.PUSH_FOR_OTHER_TEAMS.ordinal()] = EnumTeamPush.HIDE_FOR_OTHER_TEAMS;
-		pushes[CollisionRule.PUSH_FOR_OWN_TEAM.ordinal()] = EnumTeamPush.HIDE_FOR_OWN_TEAM;
-		TEAM_PUSHES = pushes;
+        EnumTeamPush[] pushes = new EnumTeamPush[EnumTeamPush.values().length];
+        pushes[CollisionRule.ALWAYS.ordinal()] = EnumTeamPush.ALWAYS;
+        pushes[CollisionRule.NEVER.ordinal()] = EnumTeamPush.NEVER;
+        pushes[CollisionRule.PUSH_FOR_OTHER_TEAMS.ordinal()] = EnumTeamPush.HIDE_FOR_OTHER_TEAMS;
+        pushes[CollisionRule.PUSH_FOR_OWN_TEAM.ordinal()] = EnumTeamPush.HIDE_FOR_OWN_TEAM;
+        TEAM_PUSHES = pushes;
 
-		EnumChatFormat[] formats = new EnumChatFormat[ChatColor.values().length];
-		formats[ChatColor.BLACK.ordinal()] = EnumChatFormat.BLACK;
-		formats[ChatColor.DARK_BLUE.ordinal()] = EnumChatFormat.DARK_BLUE;
-		formats[ChatColor.DARK_GREEN.ordinal()] = EnumChatFormat.DARK_GREEN;
-		formats[ChatColor.DARK_AQUA.ordinal()] = EnumChatFormat.DARK_AQUA;
-		formats[ChatColor.DARK_RED.ordinal()] = EnumChatFormat.DARK_RED;
-		formats[ChatColor.DARK_PURPLE.ordinal()] = EnumChatFormat.DARK_PURPLE;
-		formats[ChatColor.GOLD.ordinal()] = EnumChatFormat.GOLD;
-		formats[ChatColor.GRAY.ordinal()] = EnumChatFormat.GRAY;
-		formats[ChatColor.DARK_GRAY.ordinal()] = EnumChatFormat.DARK_GRAY;
-		formats[ChatColor.BLUE.ordinal()] = EnumChatFormat.BLUE;
-		formats[ChatColor.GREEN.ordinal()] = EnumChatFormat.GREEN;
-		formats[ChatColor.AQUA.ordinal()] = EnumChatFormat.AQUA;
-		formats[ChatColor.RED.ordinal()] = EnumChatFormat.RED;
-		formats[ChatColor.LIGHT_PURPLE.ordinal()] = EnumChatFormat.LIGHT_PURPLE;
-		formats[ChatColor.YELLOW.ordinal()] = EnumChatFormat.YELLOW;
-		formats[ChatColor.WHITE.ordinal()] = EnumChatFormat.WHITE;
-		formats[ChatColor.MAGIC.ordinal()] = EnumChatFormat.OBFUSCATED;
-		formats[ChatColor.BOLD.ordinal()] = EnumChatFormat.BOLD;
-		formats[ChatColor.STRIKETHROUGH.ordinal()] = EnumChatFormat.STRIKETHROUGH;
-		formats[ChatColor.UNDERLINE.ordinal()] = EnumChatFormat.UNDERLINE;
-		formats[ChatColor.ITALIC.ordinal()] = EnumChatFormat.ITALIC;
-		formats[ChatColor.RESET.ordinal()] = EnumChatFormat.RESET;
-		CHAT_FORMATS = formats;
-	}
-	
-	private static final FakeTeam INSTANCE = new FakeTeam();
+        EnumChatFormat[] formats = new EnumChatFormat[ChatColor.values().length];
+        formats[ChatColor.BLACK.ordinal()] = EnumChatFormat.BLACK;
+        formats[ChatColor.DARK_BLUE.ordinal()] = EnumChatFormat.DARK_BLUE;
+        formats[ChatColor.DARK_GREEN.ordinal()] = EnumChatFormat.DARK_GREEN;
+        formats[ChatColor.DARK_AQUA.ordinal()] = EnumChatFormat.DARK_AQUA;
+        formats[ChatColor.DARK_RED.ordinal()] = EnumChatFormat.DARK_RED;
+        formats[ChatColor.DARK_PURPLE.ordinal()] = EnumChatFormat.DARK_PURPLE;
+        formats[ChatColor.GOLD.ordinal()] = EnumChatFormat.GOLD;
+        formats[ChatColor.GRAY.ordinal()] = EnumChatFormat.GRAY;
+        formats[ChatColor.DARK_GRAY.ordinal()] = EnumChatFormat.DARK_GRAY;
+        formats[ChatColor.BLUE.ordinal()] = EnumChatFormat.BLUE;
+        formats[ChatColor.GREEN.ordinal()] = EnumChatFormat.GREEN;
+        formats[ChatColor.AQUA.ordinal()] = EnumChatFormat.AQUA;
+        formats[ChatColor.RED.ordinal()] = EnumChatFormat.RED;
+        formats[ChatColor.LIGHT_PURPLE.ordinal()] = EnumChatFormat.LIGHT_PURPLE;
+        formats[ChatColor.YELLOW.ordinal()] = EnumChatFormat.YELLOW;
+        formats[ChatColor.WHITE.ordinal()] = EnumChatFormat.WHITE;
+        formats[ChatColor.MAGIC.ordinal()] = EnumChatFormat.OBFUSCATED;
+        formats[ChatColor.BOLD.ordinal()] = EnumChatFormat.BOLD;
+        formats[ChatColor.STRIKETHROUGH.ordinal()] = EnumChatFormat.STRIKETHROUGH;
+        formats[ChatColor.UNDERLINE.ordinal()] = EnumChatFormat.UNDERLINE;
+        formats[ChatColor.ITALIC.ordinal()] = EnumChatFormat.ITALIC;
+        formats[ChatColor.RESET.ordinal()] = EnumChatFormat.RESET;
+        CHAT_FORMATS = formats;
+    }
 
-	public static FakeTeam getInstance(NMSTeam team)
-	{
-		FakeTeam fakeTeam = INSTANCE;
+    private static final FakeTeam INSTANCE = new FakeTeam();
 
-		fakeTeam.team = team;
+    public static FakeTeam getInstance(NMSTeam team)
+    {
+        FakeTeam fakeTeam = INSTANCE;
 
-		return fakeTeam;
-	}
+        fakeTeam.team = team;
 
-	private NMSTeam team;
+        return fakeTeam;
+    }
 
-	private FakeTeam()
-	{
-		super(null, null);
-	}
+    private NMSTeam team;
 
-	@Override
-	public String getName()
-	{
-		return this.team.name;
-	}
+    private FakeTeam()
+    {
+        super(null, null);
+    }
 
-	@Override
-	public String getDisplayName()
-	{
-		return this.team.displayName;
-	}
+    @Override
+    public String getName()
+    {
+        return this.team.name;
+    }
 
-	@Override
-	public String getPrefix()
-	{
-		return this.team.prefix;
-	}
+    @Override
+    public String getDisplayName()
+    {
+        return this.team.displayName;
+    }
 
-	@Override
-	public String getSuffix()
-	{
-		return this.team.suffix;
-	}
+    @Override
+    public String getPrefix()
+    {
+        return this.team.prefix;
+    }
 
-	@Override
-	public boolean allowFriendlyFire()
-	{
-		return this.team.allowFriendlyFire;
-	}
+    @Override
+    public String getSuffix()
+    {
+        return this.team.suffix;
+    }
 
-	@Override
-	public boolean canSeeFriendlyInvisibles()
-	{
-		return this.team.canSeeFriendlyInvisibles;
-	}
+    @Override
+    public boolean allowFriendlyFire()
+    {
+        return this.team.allowFriendlyFire;
+    }
 
-	@Override
-	public EnumNameTagVisibility getNameTagVisibility()
-	{
-		return NAME_TAG_VISIBILITIES[this.team.getNameTagVisibility().ordinal()];
-	}
+    @Override
+    public boolean canSeeFriendlyInvisibles()
+    {
+        return this.team.canSeeFriendlyInvisibles;
+    }
 
-	@Override
-	public EnumTeamPush getCollisionRule()
-	{
-		return TEAM_PUSHES[this.team.getCollisionRule().ordinal()];
-	}
+    @Override
+    public EnumNameTagVisibility getNameTagVisibility()
+    {
+        return NAME_TAG_VISIBILITIES[this.team.getNameTagVisibility().ordinal()];
+    }
 
-	@Override
-	public Collection<String> getPlayerNameSet()
-	{
-		return this.team.entries;
-	}
+    @Override
+    public EnumTeamPush getCollisionRule()
+    {
+        return TEAM_PUSHES[this.team.getCollisionRule().ordinal()];
+    }
 
-	@Override
-	public EnumChatFormat getColor()
-	{
-		return CHAT_FORMATS[this.team.getColor().ordinal()];
-	}
+    @Override
+    public Collection<String> getPlayerNameSet()
+    {
+        return this.team.entries;
+    }
 
-	PacketPlayOutScoreboardTeam createCreatePacket()
-	{
-		PacketPlayOutScoreboardTeam packet = new PacketPlayOutScoreboardTeam(this, 0);
+    @Override
+    public EnumChatFormat getColor()
+    {
+        return CHAT_FORMATS[this.team.getColor().ordinal()];
+    }
 
-		this.team = null;
+    PacketPlayOutScoreboardTeam createCreatePacket()
+    {
+        PacketPlayOutScoreboardTeam packet = new PacketPlayOutScoreboardTeam(this, 0);
 
-		return packet;
-	}
+        this.team = null;
 
-	PacketPlayOutScoreboardTeam createRemovePacket()
-	{
-		PacketPlayOutScoreboardTeam packet = new PacketPlayOutScoreboardTeam(this, 1);
+        return packet;
+    }
 
-		this.team = null;
+    PacketPlayOutScoreboardTeam createRemovePacket()
+    {
+        PacketPlayOutScoreboardTeam packet = new PacketPlayOutScoreboardTeam(this, 1);
 
-		return packet;
-	}
+        this.team = null;
 
-	PacketPlayOutScoreboardTeam createUpdatePacket()
-	{
-		PacketPlayOutScoreboardTeam packet = new PacketPlayOutScoreboardTeam(this, 2);
+        return packet;
+    }
 
-		this.team = null;
+    PacketPlayOutScoreboardTeam createUpdatePacket()
+    {
+        PacketPlayOutScoreboardTeam packet = new PacketPlayOutScoreboardTeam(this, 2);
 
-		return packet;
-	}
+        this.team = null;
 
-	PacketPlayOutScoreboardTeam createAddMemberPacket(Collection<String> members)
-	{
-		PacketPlayOutScoreboardTeam packet = new PacketPlayOutScoreboardTeam(this, members, 3);
+        return packet;
+    }
 
-		this.team = null;
+    PacketPlayOutScoreboardTeam createAddMemberPacket(Collection<String> members)
+    {
+        PacketPlayOutScoreboardTeam packet = new PacketPlayOutScoreboardTeam(this, members, 3);
 
-		return packet;
-	}
+        this.team = null;
 
-	PacketPlayOutScoreboardTeam createRemoveMemberPacket(Collection<String> members)
-	{
-		PacketPlayOutScoreboardTeam packet = new PacketPlayOutScoreboardTeam(this, members, 4);
+        return packet;
+    }
 
-		this.team = null;
+    PacketPlayOutScoreboardTeam createRemoveMemberPacket(Collection<String> members)
+    {
+        PacketPlayOutScoreboardTeam packet = new PacketPlayOutScoreboardTeam(this, members, 4);
 
-		return packet;
-	}
+        this.team = null;
+
+        return packet;
+    }
 }

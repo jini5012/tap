@@ -6,10 +6,10 @@ import com.nemosw.spigot.tap.firework.FireworkSupport;
 public class NMSFireworkSupport implements FireworkSupport
 {
 
-	@Override
-	public FireworkEffect build(FireworkEffect.Builder builder)
-	{
-		return new NMSFireworkEffect(builder);
-	}
+    @Override
+    public FireworkEffect build(FireworkEffect.Builder builder)
+    {
+        return new NMSFireworkEffect(builder);
+    }
 
 }
