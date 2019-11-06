@@ -116,7 +116,7 @@ public class NMSInventory implements TapInventory
     @Override
     public void setItem(int slot, TapItemStack item)
     {
-        this.nmsInventory.setItem(slot, ((NMSItemStack) item).getHandle());
+        this.nmsInventory.setItem(slot, NMSItemSupport.unwrapItemStack(item));
     }
 
     @Override
