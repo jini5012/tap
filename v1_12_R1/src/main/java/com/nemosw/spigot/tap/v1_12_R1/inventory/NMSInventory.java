@@ -80,7 +80,7 @@ public class NMSInventory implements TapInventory
         {
             ItemStack current = nmsInventory.getItem(i);
 
-            if (!current.isEmpty() && item == current.getItem() && amount == current.getCount() && data == current.getData() && Objects.equal(tag, current.getTag()))
+            if (current == itemStack || (!current.isEmpty() && item == current.getItem() && amount == current.getCount() && data == current.getData() && Objects.equal(tag, current.getTag())))
                 return i;
         }
 
