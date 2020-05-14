@@ -94,10 +94,10 @@ project(':core') {
     dependencies {
         compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
         compileOnly files(Jvm.current().toolsJar)
-        compile 'com.nemosw.mox:mox-collections:1.0'
-        compile 'com.nemosw.mox:mox-task:1.0'
-        compile 'com.nemosw.mox:mox-math:1.0.2'
-        compile 'com.nemosw.mox:mox-tools:1.1'
+        compile 'com.github.noonmaru:collections:1.0'
+        compile 'com.github.noonmaru:task:1.0'
+        compile 'com.github.noonmaru:math:1.0'
+        compile 'com.github.noonmaru:tools:1.0'
     }
 }
 
