@@ -115,6 +115,5 @@ dependencies {
 
 task spigotJar(type: Copy) {
     from shadowJar
-    into '/run/pluginstest/'
-    into 'W:\\Servers\\tap\\plugins'
+    into 'C:\\Users\\Guest1\\desktop\\1.12.2\\plugins'
 }
